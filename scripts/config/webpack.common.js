@@ -1,11 +1,12 @@
-const path = require('path')
+const { resolve } = require('path')
+const { PROJECT_PATH } = require('./constant')
 
 module.exports = {
   entry: {
-    app: path.resolve(__dirname, '../../src/app.js')
+    app: resolve(PROJECT_PATH, './src/app.js')
   },
   output: {
     filename: 'js/[name].[hash:8].js',
-    path: path.resolve(__dirname, '../../dist')
+    path: resolve(PROJECT_PATH, '../../dist')
   }
 }
