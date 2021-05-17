@@ -1,6 +1,8 @@
 const { resolve } = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { PROJECT_PATH } = require('../constant')
+const CopyPlugin = require('copy-webpack-plugin')
+const WebpackBar = require('webpackbar')
+const { PROJECT_PATH, imageInlineSizeLimit } = require('../constant')
 const { isDev, isProd } = require('../env')
 
 const getCssLoader = importLoaders =>
@@ -46,8 +48,22 @@ module.exports = {
   entry: {
     app: resolve(PROJECT_PATH, './src/app.js')
   },
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js', '.json'],
+    alias: {
+      Src: resolve(PROJECT_PATH, './src'),
+      Components: resolve(PROJECT_PATH, './components'),
+      Utils: resolve(PROJECT_PATH, './utils')
+    }
+  },
   module: {
     rules: [
+      {
+        test: /\.(tsx?|js)$/,
+        loader: 'babel-loader',
+        options: { cacheDirectory: true },
+        exclude: /node_modules/
+      },
       {
         test: /\.css$/,
         use: getCssLoader(1)
@@ -75,8 +91,50 @@ module.exports = {
             }
           }
         ]
+      },
+      /**
+       * asset module type
+       * asset/resource: 发送一个单独的文件并导出 URL。之前通过使用 file-loader 实现 默认：[hash][ext][query]
+       * asset/inline: 导出一个资源的 data URI。之前通过使用 url-loader 实现
+       * asset/source: 导出资源的源代码。之前通过使用 raw-loader 实现
+       * asset: 在导出一个 data URI 和发送一个单独的文件之间自动选择。之前通过使用 url-loader，并且配置资源体积限制实现
+       */
+      {
+        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        type: 'asset',
+        // 设置资源的大小
+        parser: {
+          dataUrlCondition: {
+            maxSize: imageInlineSizeLimit
+          }
+        }
+      },
+      {
+        test: /\.(eot|svg|ttf|woff|woff2?)$/,
+        type: 'asset/resource'
       }
     ]
   },
-  plugins: [new HtmlWebpackPlugin({ template: './public/index.html', cache: true })]
+  plugins: [
+    new HtmlWebpackPlugin({ template: './public/index.html', cache: true }),
+    new CopyPlugin({
+      patterns: [
+        {
+          context: resolve(PROJECT_PATH, './public'),
+          from: '*',
+          to: resolve(PROJECT_PATH, './build'),
+          toType: 'dir',
+          globOptions: {
+            dot: true,
+            gitignore: true,
+            ignore: ['**/index.html']
+          }
+        }
+      ]
+    }),
+    new WebpackBar({
+      name: isDev ? 'RUNNING' : 'BUNDLING',
+      color: isDev ? '#52c41a' : '#722ed1'
+    })
+  ]
 }
