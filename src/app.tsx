@@ -12,7 +12,7 @@ function App(props: IProps) {
   return (
     <div className={styles.app}>
       <Header />
-      <span>{`Hello! I'm ${name}, ${age} yearssss old.`}</span>
+      <span>{`Hello! I'm ${name}, ${age} yearssss old!!`}</span>
     </div>
   )
 }

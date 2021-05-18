@@ -4,6 +4,13 @@
  * "error"或2- 开启规则，使用错误级别的错误：error(当被触发的时候，程序会退出)
  */
 
+/**
+ * tip: 您必须禁用基本规则，因为它会报告不正确的错误(两者同时使用时需要这样)
+ * url: https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/no-use-before-define.md
+ * no-use-before-define”："off"
+ * @typescript-eslint/no-use-before-define": [ "error" ]
+ */
+
 const OFF = 0
 const WARN = 1
 const ERROR = 2

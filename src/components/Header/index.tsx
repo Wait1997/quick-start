@@ -4,7 +4,7 @@ import styles from './index.less'
 function Header() {
   return (
     <div className={styles.header}>
-      <span>I am Header</span>
+      <span>I am Header.</span>
     </div>
   )
 }

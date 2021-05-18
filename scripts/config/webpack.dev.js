@@ -2,6 +2,7 @@ const { merge } = require('webpack-merge')
 const { resolve } = require('path')
 const common = require('./webpack.common')
 const { PROJECT_PATH, SERVER_HOST, SERVER_PORT } = require('../constant')
+const proxySetting = require('../../src/setProxy')
 
 /**
  * devServer: 属性
@@ -17,6 +18,7 @@ const { PROJECT_PATH, SERVER_HOST, SERVER_PORT } = require('../constant')
 module.exports = merge(common, {
   mode: 'development',
   devtool: 'eval-source-map',
+  cache: { type: 'memory' },
   output: {
     filename: 'js/[name].js',
     path: resolve(PROJECT_PATH, './build')
@@ -28,6 +30,15 @@ module.exports = merge(common, {
     clientLogLevel: 'silent', // 日志等级
     compress: true, // 是否启用 gzip 压缩
     open: true, // 打开默认浏览器
-    hot: true // 热更新
+    hot: true, // 热更新
+    proxy: { ...proxySetting }
+  },
+  optimization: {
+    minimize: false,
+    minimizer: [],
+    splitChunks: {
+      chunks: 'all',
+      minSize: 10000
+    }
   }
 })

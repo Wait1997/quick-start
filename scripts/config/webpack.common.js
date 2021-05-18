@@ -1,13 +1,15 @@
-const { resolve } = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const WebpackBar = require('webpackbar')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+const { resolve } = require('path')
 const { PROJECT_PATH, imageInlineSizeLimit } = require('../constant')
 const { isDev, isProd } = require('../env')
 
 const getCssLoader = importLoaders =>
   [
-    'style-loader',
+    isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
     {
       loader: 'css-loader',
       options: {
@@ -135,6 +137,11 @@ module.exports = {
     new WebpackBar({
       name: isDev ? 'RUNNING' : 'BUNDLING',
       color: isDev ? '#52c41a' : '#722ed1'
+    }),
+    new ForkTsCheckerWebpackPlugin({
+      typescript: {
+        configFile: resolve(PROJECT_PATH, './tsconfig.json')
+      }
     })
   ]
 }
