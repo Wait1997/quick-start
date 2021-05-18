@@ -46,14 +46,14 @@ const getCssLoader = importLoaders =>
 
 module.exports = {
   entry: {
-    app: resolve(PROJECT_PATH, './src/app.js')
+    app: resolve(PROJECT_PATH, './src/index')
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.json'],
     alias: {
       Src: resolve(PROJECT_PATH, './src'),
-      Components: resolve(PROJECT_PATH, './components'),
-      Utils: resolve(PROJECT_PATH, './utils')
+      Components: resolve(PROJECT_PATH, './src/components'),
+      Utils: resolve(PROJECT_PATH, './src/utils')
     }
   },
   module: {

@@ -135,7 +135,7 @@ module.exports = {
     'class-methods-use-this': ERROR,
     'jsx-quotes': [ERROR, 'prefer-single'],
     'global-require': OFF, // 要求 require() 出现在顶层模块作用域中
-    'no-use-before-define': WARN, // 禁止在变量定义之前使用它们
+    'no-use-before-define': OFF, // 禁止在变量定义之前使用它们
     'no-restricted-syntax': OFF, // 禁用特定的语法
     'no-var': WARN,
     'no-continue': OFF
