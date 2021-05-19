@@ -4,7 +4,7 @@ const CopyPlugin = require('copy-webpack-plugin')
 const WebpackBar = require('webpackbar')
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
 const { resolve } = require('path')
-const { PROJECT_PATH, imageInlineSizeLimit } = require('../constant')
+const { PROJECT_PATH, shouldOpenThreadLoader, imageInlineSizeLimit } = require('../constant')
 const { isDev, isProd } = require('../env')
 
 const getCssLoader = importLoaders =>
@@ -46,6 +46,22 @@ const getCssLoader = importLoaders =>
     }
   ].filter(Boolean)
 
+const getJsLoader = () =>
+  shouldOpenThreadLoader
+    ? [
+        isDev ? '' : 'thread-loader',
+        {
+          loader: 'babel-loader',
+          options: { cacheDirectory: true }
+        }
+      ].filter(Boolean)
+    : [
+        {
+          loader: 'babel-loader',
+          options: { cacheDirectory: true }
+        }
+      ]
+
 module.exports = {
   entry: {
     app: resolve(PROJECT_PATH, './src/index')
@@ -62,8 +78,7 @@ module.exports = {
     rules: [
       {
         test: /\.(tsx?|js)$/,
-        loader: 'babel-loader',
-        options: { cacheDirectory: true },
+        use: [...getJsLoader()],
         exclude: /node_modules/
       },
       {

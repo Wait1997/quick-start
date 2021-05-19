@@ -136,3 +136,7 @@ plugins
 
 1. vscode 安装相应的扩展 EditorConfig For vs Code
 2. vscode 中使用快捷键 ctrl+shift+p 打开命令台，输入 Generate .editorcofig 即可快速生成 .editorconfig 文件
+
+### tree shaking
+
+### splitChunks

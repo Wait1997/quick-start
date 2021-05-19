@@ -7,12 +7,15 @@ const PROJECT_NAME = path.parse(PROJECT_PATH).name
 const SERVER_HOST = 'localhost'
 const SERVER_PORT = 9000
 
-const shouldOpenAnalyzer = false
+const shouldOpenAnalyzer = false // 是否包后后打开包分析
 const ANALYZER_HOST = 'localhost'
 const ANALYZER_PORT = '8888'
 
 // 图片资源 limit
 const imageInlineSizeLimit = 4 * 1024
+
+// 是否开启多线程打包
+const shouldOpenThreadLoader = false
 
 module.exports = {
   PROJECT_PATH,
@@ -22,5 +25,6 @@ module.exports = {
   ANALYZER_HOST,
   ANALYZER_PORT,
   shouldOpenAnalyzer,
+  shouldOpenThreadLoader,
   imageInlineSizeLimit
 }

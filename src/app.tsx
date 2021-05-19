@@ -1,5 +1,6 @@
 import React from 'react'
 import Header from 'Components/Header'
+import { mathA } from 'Utils/math'
 import styles from './app.less'
 
 interface IProps {
@@ -13,6 +14,7 @@ function App(props: IProps) {
     <div className={styles.app}>
       <Header />
       <span>{`Hello! I'm ${name}, ${age} yearssss old!!`}</span>
+      {mathA(2, 3)}
     </div>
   )
 }

@@ -31,8 +31,15 @@ module.exports = merge(common, {
   ].filter(Boolean),
   optimization: {
     minimize: true,
+    sideEffects: true,
+    usedExports: true,
     minimizer: [
+      /**
+       * webpack v5 内置 terser-webpack-plugin 不需要安装
+       * extractComments: true 是否将注释剥离到单独的文件中 .txt 文件中
+       */
       new TerserPlugin({
+        parallel: true, // 多进程打包
         extractComments: false,
         terserOptions: {
           compress: { pure_funcs: ['console.log'] }
