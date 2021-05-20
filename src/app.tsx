@@ -13,8 +13,9 @@ function App(props: IProps) {
   return (
     <div className={styles.app}>
       <Header />
+      傻逼玩意---hahahahxasdlkasleqwiueqiu
       <span>{`Hello! I'm ${name}, ${age} yearssss old!!`}</span>
-      {mathA(2, 3)}
+      {mathA(0, 11)}
     </div>
   )
 }

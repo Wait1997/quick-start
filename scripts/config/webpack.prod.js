@@ -10,7 +10,13 @@ const { PROJECT_PATH, ANALYZER_HOST, ANALYZER_PORT, shouldOpenAnalyzer } = requi
 module.exports = merge(common, {
   mode: 'production',
   devtool: false,
-  cache: false,
+  target: 'browserslist',
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename]
+    }
+  },
   output: {
     filename: 'js/[name].[contenthash:8].js',
     path: resolve(PROJECT_PATH, './build'),
