@@ -5,9 +5,10 @@ import styles from './app.less'
 interface IProps {
   name: string
   age: number
+  sex?: boolean
 }
 
-function App(props: IProps) {
+export default function App(props: IProps): JSX.Element {
   const { name, age } = props
   return (
     <>
@@ -15,10 +16,7 @@ function App(props: IProps) {
         <Header />
         <span>{`Hello! I'm ${name}, ${age} yearssss old!!`}</span>
       </div>
-      我是朱艳老公我是朱艳老公
       <div className={styles.wrap} />
     </>
   )
 }
-
-export default App
