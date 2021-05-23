@@ -33,7 +33,7 @@ module.exports = merge(common, {
     clientLogLevel: 'silent', // 日志等级
     open: false, // 打开默认浏览器
     hot: true, // 热更新
-    noInfo: true,
+    // noInfo: true,
     proxy: { ...require('../../src/setProxy') } // 设置代理
   },
   plugins: [new Webpack.HotModuleReplacementPlugin(), new ErrorOverlayPlugin()],

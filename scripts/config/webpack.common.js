@@ -133,7 +133,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: './public/index.html', cache: true }),
+    new HtmlWebpackPlugin({ template: './public/index.html', cache: false }),
     new CopyPlugin({
       patterns: [
         {
