@@ -141,6 +141,7 @@ module.exports = {
     'no-unused-expressions': WARN,
     'no-plusplus': OFF,
     'no-console': WARN,
+    'no-param-reassign': OFF,
     'class-methods-use-this': ERROR,
     'jsx-quotes': [ERROR, 'prefer-single'],
     'global-require': OFF, // 要求 require() 出现在顶层模块作用域中
