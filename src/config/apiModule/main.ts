@@ -4,6 +4,15 @@ declare interface BannerRequest {
   type: number
 }
 
+declare interface LoginRequest {
+  phone: string
+  password: string
+}
+
 export function apiGetBanner(params: BannerRequest) {
-  webapi.get(`/banner?type=${params}`)
+  return webapi.get(`/banner?type=${params.type}`)
+}
+
+export function apiPostLogin(params: LoginRequest) {
+  return webapi.post('/login/cellphone', params)
 }

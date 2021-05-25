@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Header from 'Components/Header'
 import styles from './app.less'
-import { apiGetBanner } from './config/apiModule/main'
+import { apiGetBanner, apiPostLogin } from './config/apiModule/main'
 
 interface IProps {
   name: string
@@ -11,9 +11,14 @@ interface IProps {
 
 export default function App(props: IProps): JSX.Element {
   const { name, age } = props
-  useEffect(() => {
-    apiGetBanner({ type: 0 })
-  })
+  // useEffect(() => {
+  //   apiGetBanner({ type: 0 }).then((res) => {})
+  // })
+  // useEffect(() => {
+  //   apiPostLogin({ phone: '18815610633', password: 'xiong20151202108' }).then((res) => {
+  //     console.log(res)
+  //   })
+  // })
   return (
     <>
       <div className={styles.app}>

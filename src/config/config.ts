@@ -1,4 +1,5 @@
-const { hostname } = window.location
+const port = 3000
+const { hostname, protocol } = window.location
 
 export const isLocal = hostname.match(/^127|localhost|^192/)
 export const isDev = hostname.match(/^dev-/)
@@ -15,7 +16,8 @@ function getBaseURL(): BaseURLView {
   let webURL: string
 
   if (isLocal) {
-    url = window.location.origin
+    // url = window.location.origin
+    url = `${protocol}//${hostname}:${port}`
     webURL = '//dev-cs.xiaoheiban.cn'
   } else if (isDev) {
     url = '//dev-platform.xiaoheiban.cn'

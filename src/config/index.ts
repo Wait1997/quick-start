@@ -2,7 +2,7 @@
  * @Author: @guofang
  * @Date: 2021-05-24 22:52:03
  * @Last Modified by: @guofang
- * @Last Modified time: 2021-05-25 18:06:25
+ * @Last Modified time: 2021-05-26 00:36:40
  */
 
 import Axios, { AxiosInstance, AxiosRequestConfig, Method } from 'axios'
@@ -43,7 +43,7 @@ export class Webapi {
       return config
     })
     this.resInterceptors = this.axios.interceptors.response.use(
-      response => {
+      (response) => {
         if (response.status === 200) {
           return response.data
         }
@@ -52,13 +52,10 @@ export class Webapi {
           data: response.data
         }
       },
-      async error => {
-        const response = error.response || {}
-        const data = response.data || {}
-        let desc = (isDev ? '接口信息：' : '') + (data.message || data.desc || '请求出错啦^o^')
-        if (error.message.startsWith('Network Error')) {
-          desc = '网络已中断，请检查网络是否完好'
-        }
+      (error) => {
+        const { response } = error
+        const data = response?.data || {}
+        const desc = (isDev ? '接口信息：' : '') + (data?.message || data?.desc || '请求出错啦^o^')
         return { code: data.code || data.status, desc, data }
       }
     )
@@ -103,14 +100,14 @@ export class Webapi {
   }
 }
 
-export const webapi = new Webapi({
+export const webapi: Webapi = new Webapi({
   config: {
     baseURL: `${baseURL}`,
     timeout: 1000000
   }
 })
 
-export const basewebURL = new Webapi({
+export const basewebURL: Webapi = new Webapi({
   config: {
     baseURL: `${baseWebURL}`,
     timeout: 1000000

@@ -134,6 +134,8 @@ module.exports = {
     'jsx-a11y/no-noninteractive-element-interactions': OFF,
     'jsx-a11y/no-static-element-interactions': OFF,
 
+    'prettier/prettier': ['error', { arrowParens: 'always' }],
+
     'lines-between-class-members': [ERROR, 'always'], // 要求或禁止类成员之间出现空行
     'linebreak-style': [ERROR, 'unix'], // 强制使用一致的换行风格
     quotes: [ERROR, 'single'], // 强制使用单引号
