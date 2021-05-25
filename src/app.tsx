@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from 'Components/Header'
 import styles from './app.less'
+import { apiGetBanner } from './config/apiModule/main'
 
 interface IProps {
   name: string
@@ -10,6 +11,9 @@ interface IProps {
 
 export default function App(props: IProps): JSX.Element {
   const { name, age } = props
+  useEffect(() => {
+    apiGetBanner({ type: 0 })
+  })
   return (
     <>
       <div className={styles.app}>

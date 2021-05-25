@@ -5,8 +5,6 @@ export const isDev = hostname.match(/^dev-/)
 export const isPre = hostname.match(/^pre-/)
 export const isOnline = hostname.match(/^pc/)
 
-export const origin = window.location.origin === 'file://' ? 'https:' : ''
-
 interface BaseURLView {
   url: string
   webURL: string
@@ -17,7 +15,7 @@ function getBaseURL(): BaseURLView {
   let webURL: string
 
   if (isLocal) {
-    url = window.location.origin // 允许本地反向代理
+    url = window.location.origin
     webURL = '//dev-cs.xiaoheiban.cn'
   } else if (isDev) {
     url = '//dev-platform.xiaoheiban.cn'
@@ -25,17 +23,14 @@ function getBaseURL(): BaseURLView {
   } else if (isPre) {
     url = '//pre-platform.xiaoheiban.cn'
     webURL = '//pre-cs.xiaoheiban.cn'
-  } else if (isOnline) {
+  } else {
     url = '//platform.xiaoheiban.cn'
     webURL = '//cs.xiaoheiban.cn'
-  } else {
-    url = window.location.origin // 允许本地反向代理
-    webURL = '//dev-cs.xiaoheiban.cn'
   }
 
   return {
-    url: origin + url,
-    webURL: origin + webURL
+    url,
+    webURL
   }
 }
 

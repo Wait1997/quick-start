@@ -1,6 +1,8 @@
+import { CustomAxiosRequestConfig } from './index'
+
 export interface WebReq {
   params?: { [index: string]: any }
-  forms?: any
+  config?: CustomAxiosRequestConfig
 }
 
 export interface Response<T> {
@@ -8,5 +10,3 @@ export interface Response<T> {
   data: T
   desc: string
 }
-
-export function genUrl(url: string, params: WebReq['params']) {}
