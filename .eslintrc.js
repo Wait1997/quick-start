@@ -109,6 +109,9 @@ module.exports = {
     'unicorn/import-style': OFF,
     'unicorn/prefer-module': OFF,
 
+    'promise/always-return': OFF,
+    'promise/catch-or-return': OFF,
+
     '@typescript-eslint/no-useless-constructor': ERROR,
     '@typescript-eslint/no-empty-function': WARN,
     '@typescript-eslint/no-var-requires': OFF, // 关闭 require() 引入报错

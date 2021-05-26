@@ -2,11 +2,11 @@
  * @Author: @guofang
  * @Date: 2021-05-24 22:52:03
  * @Last Modified by: @guofang
- * @Last Modified time: 2021-05-26 00:36:40
+ * @Last Modified time: 2021-05-26 18:10:54
  */
 
-import Axios, { AxiosInstance, AxiosRequestConfig, Method } from 'axios'
-import { baseURL, baseWebURL, isDev } from './config'
+import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
+import { baseURL, baseWebURL } from './config'
 
 import { WebReq, Response } from './url'
 import { getHeaders } from './utils'
@@ -45,18 +45,16 @@ export class Webapi {
     this.resInterceptors = this.axios.interceptors.response.use(
       (response) => {
         if (response.status === 200) {
-          return response.data
+          return {
+            data: response.data
+          }
         }
-        return {
-          code: 'error',
-          data: response.data
-        }
+        return response.data
       },
       (error) => {
-        const { response } = error
-        const data = response?.data || {}
-        const desc = (isDev ? '接口信息：' : '') + (data?.message || data?.desc || '请求出错啦^o^')
-        return { code: data.code || data.status, desc, data }
+        const response = error.response || {}
+        const data = response.data || {}
+        return { code: response.status, data }
       }
     )
   }

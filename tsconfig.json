@@ -16,7 +16,9 @@
     "paths": {
       "Src/*": ["src/*"],
       "Components/*": ["src/components/*"],
-      "Utils/*": ["src/utils/*"]
+      "Utils/*": ["src/utils/*"],
+      "Config/*": ["src/config/*"],
+      "Api/*": ["src/api/*"]
     },
 
     "experimentalDecorators": true,

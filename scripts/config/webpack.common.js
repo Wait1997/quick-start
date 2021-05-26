@@ -7,7 +7,7 @@ const { resolve } = require('path')
 const { PROJECT_PATH, shouldOpenThreadLoader, imageInlineSizeLimit } = require('../constant')
 const { isDev, isProd } = require('../env')
 
-const getCssLoader = importLoaders =>
+const getCssLoader = (importLoaders) =>
   [
     isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
     {
@@ -71,7 +71,9 @@ module.exports = {
     alias: {
       Src: resolve(PROJECT_PATH, './src'),
       Components: resolve(PROJECT_PATH, './src/components'),
-      Utils: resolve(PROJECT_PATH, './src/utils')
+      Utils: resolve(PROJECT_PATH, './src/utils'),
+      Config: resolve(PROJECT_PATH, './src/config'),
+      Api: resolve(PROJECT_PATH, './src/api')
     }
   },
   module: {

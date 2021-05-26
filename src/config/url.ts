@@ -6,7 +6,6 @@ export interface WebReq {
 }
 
 export interface Response<T> {
-  code: number
+  code?: number
   data: T
-  desc: string
 }
