@@ -15,7 +15,10 @@
     "baseUrl": "./",
     "paths": {
       "Src/*": ["src/*"],
+      "View/*": ["src/view/*"],
       "Components/*": ["src/components/*"],
+      "Router/*": ["src/router/*"],
+      "Assets/*": ["src/assets/*"],
       "Utils/*": ["src/utils/*"],
       "Config/*": ["src/config/*"],
       "Api/*": ["src/api/*"]

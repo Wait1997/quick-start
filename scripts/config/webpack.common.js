@@ -70,7 +70,10 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js', '.json'],
     alias: {
       Src: resolve(PROJECT_PATH, './src'),
+      View: resolve(PROJECT_PATH, './src/view'),
+      Router: resolve(PROJECT_PATH, './src/router'),
       Components: resolve(PROJECT_PATH, './src/components'),
+      Assets: resolve(PROJECT_PATH, './src/assets'),
       Utils: resolve(PROJECT_PATH, './src/utils'),
       Config: resolve(PROJECT_PATH, './src/config'),
       Api: resolve(PROJECT_PATH, './src/api')
