@@ -1,6 +1,8 @@
 import Card from 'View/card'
 import Content from 'View/content'
 import Desc from 'View/content/desc'
+import Home from 'View/Home'
+import Test from 'View/Test'
 
 export interface RouterType {
   path: string
@@ -12,6 +14,10 @@ export interface RouterType {
 export const routes: RouterType[] = [
   {
     path: '/',
+    component: Test
+  },
+  {
+    path: '/card',
     exact: true,
     component: Card
   },
@@ -24,5 +30,9 @@ export const routes: RouterType[] = [
         component: Desc
       }
     ]
+  },
+  {
+    path: '/home',
+    component: Home
   }
 ]

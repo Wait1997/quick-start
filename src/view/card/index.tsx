@@ -8,17 +8,12 @@ export default function Card() {
     data: { list }
   } = listData
 
-  const history = useHistory()
+  const { push } = useHistory()
 
   return (
     <>
       {list.map((item) => (
-        <div
-          className={styles.list}
-          key={item.id}
-          onClick={() => {
-            history.push(`/content/${item.id}`)
-          }}>
+        <div className={styles.list} key={item.id} onClick={() => push(`/content/${item.id}`)}>
           <span className={styles.list_no}>{item.id}</span>
           <span className={styles.title}>{item.title}</span>
         </div>

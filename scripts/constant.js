@@ -5,7 +5,7 @@ const PROJECT_NAME = path.parse(PROJECT_PATH).name
 
 // dev server 路径与端口
 const SERVER_HOST = 'localhost'
-const SERVER_PORT = 9000
+const SERVER_PORT = 9001
 
 const shouldOpenAnalyzer = false // 是否包后后打开包分析
 const ANALYZER_HOST = 'localhost'
