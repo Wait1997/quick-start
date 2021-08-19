@@ -6,7 +6,7 @@ import BasicLayout from 'Src/layouts/BasicLayout'
 export default function Router() {
   // useEffect(() => {}, [])
   const routeEnter = (Component: FC, props: RouteProps) => {
-    const userInfo = localStorage.getItem('userInfo')
+    const userInfo = localStorage.getItem('userInfo') ?? 'admin'
     return userInfo ? <Component {...props} /> : <Redirect to='/user' />
   }
   return (

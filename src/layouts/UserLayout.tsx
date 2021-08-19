@@ -23,7 +23,7 @@ const UserLayout: React.FC = () => {
         </div>
         <Switch>
           <Route path='/user/login' component={Login} exact />
-          {/* <Route component={NotFound} /> */}
+          <Route path='/404' component={NotFound} exact />
           <Redirect from='/user' to='/user/login' />
         </Switch>
       </Content>
