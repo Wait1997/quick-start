@@ -13,7 +13,11 @@ const getCssLoader = (importLoaders) =>
     {
       loader: 'css-loader',
       options: {
-        modules: true, // 开启css模块化
+        // 开启css模块化
+        // modules: {
+        //   compileType: 'module',
+        //   localIdentName: '[local]__[hash:base64:5]'
+        // }, // 开启css模块化
         sourceMap: isDev, // 开启后与 devtool 设置一致, 开发环境开启，生产环境关闭
         importLoaders // 指定在 CSS loader 处理前使用的 laoder 数量
       }
@@ -70,7 +74,7 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js', '.json'],
     alias: {
       Src: resolve(PROJECT_PATH, './src'),
-      View: resolve(PROJECT_PATH, './src/view'),
+      Pages: resolve(PROJECT_PATH, './src/pages'),
       Router: resolve(PROJECT_PATH, './src/router'),
       Components: resolve(PROJECT_PATH, './src/components'),
       Assets: resolve(PROJECT_PATH, './src/assets'),
