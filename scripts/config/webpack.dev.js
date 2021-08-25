@@ -4,6 +4,7 @@ const { resolve } = require('path')
 const ErrorOverlayPlugin = require('error-overlay-webpack-plugin')
 const common = require('./webpack.common')
 const { PROJECT_PATH, SERVER_HOST, SERVER_PORT } = require('../constant')
+const mock = require('../server')
 
 /**
  * devServer: 属性
@@ -34,7 +35,10 @@ module.exports = merge(common, {
     open: false, // 打开默认浏览器
     hot: true, // 热更新
     // noInfo: true,
-    proxy: { ...require('../../src/setProxy') } // 设置代理
+    // proxy: { ...require('../../src/setProxy') }, // 设置代理
+    before: (app) => {
+      mock(app)
+    }
   },
   plugins: [new Webpack.HotModuleReplacementPlugin(), new ErrorOverlayPlugin()],
   optimization: {

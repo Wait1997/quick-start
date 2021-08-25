@@ -2,10 +2,10 @@
  * @Author: @guofang
  * @Date: 2021-05-24 22:52:03
  * @Last Modified by: @guofang
- * @Last Modified time: 2021-06-01 16:30:31
+ * @Last Modified time: 2021-08-23 17:35:11
  */
 
-import Axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, Method } from 'axios'
+import Axios, { AxiosInstance, AxiosRequestConfig, Method } from 'axios'
 import { baseURL, baseWebURL } from './config'
 
 import { WebReq, Response } from './url'
@@ -29,8 +29,14 @@ export interface Options {
 export class Webapi {
   private axios: AxiosInstance
 
+  /**
+   * @description 请求拦截器
+   */
   protected reqInterceptors: number
 
+  /**
+   * @description 响应拦截器
+   */
   protected resInterceptors: number
 
   constructor(options: Options) {
@@ -45,15 +51,13 @@ export class Webapi {
     this.resInterceptors = this.axios.interceptors.response.use(
       (response) => {
         if (response.status === 200) {
-          return {
-            data: response.data
-          }
+          return response.data
         }
         return response.data
       },
       (error) => {
-        const response = error.response || {}
-        const data = response.data || {}
+        const response = error.response ?? {}
+        const data = response.data ?? {}
         return { code: response.status, data }
       }
     )
@@ -101,13 +105,13 @@ export class Webapi {
 export const webapi: Webapi = new Webapi({
   config: {
     baseURL: `${baseURL}`,
-    timeout: 1000000
+    timeout: 100000
   }
 })
 
 export const basewebURL: Webapi = new Webapi({
   config: {
     baseURL: `${baseWebURL}`,
-    timeout: 1000000
+    timeout: 100000
   }
 })
