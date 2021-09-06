@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
-import { Redirect, Route, Switch, useLocation, useHistory, RouteProps } from 'react-router-dom'
+import { Redirect, Route, Switch, useLocation, useHistory, RouteComponentProps } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { Layout, Spin, message } from 'antd'
 import MenuSide from 'Components/Menu'
 import Breadcrumb from 'Components/Breadcrumb'
 import Header from 'Components/Header'
 import loadable from '@loadable/component'
-import { Dispatch, RootState } from 'Src/store'
 import './BasicLayout.less'
-import { Menu } from 'Src/models/type'
 
 const { Content, Footer } = Layout
 
@@ -24,48 +22,18 @@ const [Dashboard, SystemManager, Table, Charts, NoAuth] = [
   })
 )
 
-const BasicLayout: React.FC = () => {
+const BasicLayout: React.FC<RouteComponentProps> = () => {
   const location = useLocation()
   const history = useHistory()
-  const dispatch = useDispatch<Dispatch>()
-  const userInfo = useSelector((state: RootState) => state.app.userinfo)
+  const dispatch = useDispatch()
+  const userInfo = useSelector((state: any) => state.app.userinfo)
   const [collapsed, setCollapsed] = useState(false) // 菜单栏是否收起
 
   /**
    * @description 退出登录
    */
-  const onLogout = () => {
-    dispatch.app.onLogout().then(() => {
-      message.success('登出成功')
-      history.push('/user/login')
-    })
-  }
-
-  const checkRouterPower = (pathname: string) => {
-    if (userInfo.menus && userInfo.menus.length > 0) {
-      const { menus } = userInfo
-      const urlList = menus.map((item) => item.url)
-      return urlList.includes(pathname)
-    }
-    if (sessionStorage.getItem('userinfo')) {
-      const lastUserInfo = JSON.parse(sessionStorage.getItem('userinfo') as string)
-      const { menus } = lastUserInfo
-      const urlList = menus.map((item: Menu) => item.url)
-      return urlList.includes(pathname)
-    }
-    return false
-  }
-
-  const onEnter = (Component: any, props: RouteProps) => {
-    /**
-     * 检查当前用户是否有该路由页面的权限
-     * 没有则跳转至403页
-     */
-    if (checkRouterPower(location.pathname)) {
-      return <Component {...props} />
-    }
-    return <Redirect to='/403' />
-  }
+  // eslint-disable-next-line unicorn/consistent-function-scoping
+  const onLogout = () => {}
 
   return (
     <Layout className='basic-layout'>
@@ -80,10 +48,10 @@ const BasicLayout: React.FC = () => {
         <Breadcrumb menus={userInfo.menus} />
         <Content className='content'>
           <Switch>
-            <Route path='/dashboard' render={(props) => onEnter(Dashboard, props)} />
-            <Route path='/system' render={(props) => onEnter(SystemManager, props)} />
-            <Route path='/table' render={(props) => onEnter(Table, props)} />
-            <Route path='/charts' render={(props) => onEnter(Charts, props)} />
+            <Route path='/dashboard' render={(props) => <Dashboard />} />
+            <Route path='/system' render={(props) => <SystemManager />} />
+            <Route path='/table' render={(props) => <Table />} />
+            <Route path='/charts' render={(props) => <Charts />} />
             <Route path='/403' component={NoAuth} />
             <Redirect to='dashboard' />
           </Switch>

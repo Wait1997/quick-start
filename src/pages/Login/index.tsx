@@ -1,80 +1,36 @@
+/* eslint-disable unicorn/consistent-function-scoping */
 import React, { useState, useEffect, useRef } from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { Dispatch } from 'Src/store'
 import { Button, Form, Input, Checkbox, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { LoginReqType } from 'Api/login'
-import { Menu, Power, Role, MenuAndPower, UserBasicInfo, UserInfo } from 'Src/models/type'
+import { onLogin } from 'Src/store/actions/auth'
 import './index.less'
 
 export type FormType = LoginReqType & { remember: boolean }
 
 export default function Login() {
   const history = useHistory()
-  const dispatch = useDispatch<Dispatch>()
+  const dispatch = useDispatch()
   const [form] = Form.useForm()
   const elUserRef = useRef<Input>(null)
   const elPassRef = useRef<Input>(null)
   const [checked, setChecked] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const loginIn = async ({ username, password }: LoginReqType) => {
-    let userBasicInfo: UserBasicInfo | null = null
-    let roles: Role[] = []
-    let menus: Menu[] = []
-    let powers: Power[] = []
+  const handleUserInfo = (token: string) => {}
 
-    const loginRes = await dispatch.app.onLogin({
-      username,
-      password
-    })
-    if (loginRes?.code !== 200 || !loginRes.data) {
-      return loginRes
-    }
-    userBasicInfo = loginRes.data
-    // 2.根据角色id获取角色信息 (角色信息中有该角色拥有的菜单id和权限id)
-    const rolesData = await dispatch.sys.getRoleById(userBasicInfo.roles)
-    if (!rolesData || rolesData.code !== 200) {
-      return rolesData
-    }
-    roles = rolesData.data.filter((item) => item.conditions === 1) // conditions 1启用 -1禁用
-    // 3.根据菜单id 获取菜单信息
-    const menuAndPowers = roles.reduce((a: MenuAndPower[], b: Role): MenuAndPower[] => [...a, ...b.menuAndPowers], [])
-    const menusData = await dispatch.sys.getMenusById([...new Set(menuAndPowers.map((item) => item.menuId))])
-    if (!menusData || menusData.code !== 200) {
-      return menusData
-    }
-    menus = menusData.data.filter((item) => item.conditions === 1)
-
-    const powerData = await dispatch.sys.getPowerById([
-      ...new Set(menuAndPowers.reduce((a: number[], b: MenuAndPower): number[] => [...a, ...b.powers], []))
-    ])
-    if (!powerData || powerData.code !== 200) {
-      return powerData
-    }
-    powers = powerData.data.filter((item) => item.conditions === 1)
-    return { code: 200, data: { userBasicInfo, roles, menus, powers } }
-  }
-
-  const onSubmit = async (values: FormType): Promise<void> => {
+  const onSubmit = (values: FormType) => {
+    const { username, password } = values
     setLoading(true)
-    const res = await loginIn({ username: values.username, password: values.password })
-    if (res && res.code === 200) {
+    try {
       message.success('登录成功')
-      if (checked) {
-        localStorage.setItem('user', JSON.stringify({ username: values.username, password: values.password }))
-      } else {
-        localStorage.removeItem('user')
-      }
-      sessionStorage.setItem('userinfo', JSON.stringify(res.data))
-      await dispatch.app.setUserInfo(res.data as UserInfo)
-      // 跳转到首页
-      history.push('/')
-    } else {
-      message.error('登录失败')
+      dispatch(onLogin({ username, password }))
+      // handleUserInfo(token)
+    } catch (error) {
+      message.error(error)
     }
-    setLoading(false)
   }
 
   useEffect(() => {
