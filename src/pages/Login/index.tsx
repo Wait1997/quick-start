@@ -16,7 +16,7 @@ export default function Login() {
   const [form] = Form.useForm()
   const elUserRef = useRef<Input>(null)
   const elPassRef = useRef<Input>(null)
-  const [checked, setChecked] = useState(false)
+  const [checked, setChecked] = useState(true)
   const [loading, setLoading] = useState(false)
 
   const loginIn = async ({ username, password }: LoginReqType) => {
@@ -137,7 +137,7 @@ export default function Login() {
             placeholder='123456/123456'
           />
         </Form.Item>
-        <Form.Item name='remember' valuePropName='checked'>
+        <Form.Item name='remember'>
           <Checkbox
             checked={checked}
             onChange={(e) => {

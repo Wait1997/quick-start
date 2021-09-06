@@ -164,6 +164,15 @@ const powers = [
     desc: '菜单管理 - 删除权限',
     sorts: 2,
     conditions: 1
+  },
+  {
+    id: 19,
+    menu: 7,
+    title: '编辑',
+    code: 'menu:edit',
+    desc: '列表 - 编辑列表',
+    sorts: 1,
+    conditions: 1
   }
 ]
 

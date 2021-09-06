@@ -12,7 +12,8 @@ const roles = [
       { menuId: 3, powers: [1, 2, 3, 4, 5] },
       { menuId: 4, powers: [6, 7, 8, 9, 18] },
       { menuId: 5, powers: [10, 11, 12, 13] },
-      { menuId: 6, powers: [14, 15, 16, 17] }
+      { menuId: 6, powers: [14, 15, 16, 17] },
+      { menuId: 7, powers: [19] }
     ]
   },
   {
