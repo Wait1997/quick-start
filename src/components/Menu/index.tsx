@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState, useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import { Layout, Menu as AntdMenu } from 'antd'
+import { DesktopOutlined, PieChartOutlined, ContainerOutlined } from '@ant-design/icons'
 import { MenuType } from 'Utils/menuList'
 import cn from 'classnames'
 
@@ -31,7 +32,15 @@ export default function MenuSide({ data, width = 200, theme = 'dark', collapsed,
         onOpenChange={(keys) => setOpenKeys(keys as string[])}
         onClick={(select) => history.push(select.key)}
         mode='inline'>
-        11111
+        <Item key='1' icon={<PieChartOutlined />}>
+          Option 1
+        </Item>
+        <Item key='2' icon={<DesktopOutlined />}>
+          Option 2
+        </Item>
+        <Item key='3' icon={<ContainerOutlined />}>
+          Option 3
+        </Item>
       </AntdMenu>
     </Sider>
   )

@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
-import { Redirect, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { Button, Form, Input, Checkbox, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { LoginReqType } from 'Api/login'
@@ -12,7 +12,6 @@ import './index.less'
 export type FormType = LoginReqType & { remember: boolean }
 
 function Login(props: any) {
-  const { token } = props
   const { login, userInfo } = props
   const history = useHistory()
   const [form] = Form.useForm()
@@ -60,9 +59,6 @@ function Login(props: any) {
     }
   }, [form])
 
-  if (token) {
-    return <Redirect to='/dashboard' />
-  }
   return (
     <div className='login-form'>
       <Form form={form} initialValues={{ remember: true }} onFinish={onSubmit}>

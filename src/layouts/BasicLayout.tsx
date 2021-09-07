@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Redirect, Route, Switch, useLocation, useHistory, RouteComponentProps } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { Redirect, Route, Switch, RouteComponentProps } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { menuList } from 'Utils/menuList'
-import { Layout, Spin, message } from 'antd'
+import { Layout, Spin } from 'antd'
 import MenuSide from 'Components/Menu'
 import Breadcrumb from 'Components/Breadcrumb'
 import Header from 'Components/Header'
@@ -24,9 +24,6 @@ const [Dashboard, SystemManager, Table, Charts, NoAuth] = [
 )
 
 const BasicLayout: React.FC<RouteComponentProps> = () => {
-  const location = useLocation()
-  const history = useHistory()
-  const dispatch = useDispatch()
   const userInfo = useSelector((state: any) => state.user)
   const [collapsed, setCollapsed] = useState(false) // 菜单栏是否收起
 
@@ -49,7 +46,7 @@ const BasicLayout: React.FC<RouteComponentProps> = () => {
         <Breadcrumb menus={userInfo.menus} />
         <Content className='content'>
           <Switch>
-            <Route path='/dashboard' render={(props) => <Dashboard />} />
+            <Route path='/dashboard' component={Dashboard} />
             <Route path='/system' render={(props) => <SystemManager />} />
             <Route path='/table' render={(props) => <Table />} />
             <Route path='/charts' render={(props) => <Charts />} />

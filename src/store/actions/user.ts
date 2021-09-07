@@ -30,4 +30,4 @@ export const getUserInfo = (token: string) => {
   }
 }
 
-export const setUserToken = (token: string) => ({ type: types.USER_SET_USER_TOKEN, paylaod: token })
+export const setUserToken = (token: string) => ({ type: types.USER_SET_USER_TOKEN, payload: token })

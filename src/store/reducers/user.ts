@@ -23,6 +23,13 @@ export default function user(state = initUserInfo, action: any) {
         ...state,
         token: payload
       }
+    case types.USER_SET_USER_INFO:
+      return {
+        ...state,
+        role: payload.role,
+        avatar: payload.avatar,
+        name: payload.name
+      }
     default:
       return state
   }
