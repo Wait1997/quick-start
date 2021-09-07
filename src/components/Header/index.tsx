@@ -1,6 +1,6 @@
 import React from 'react'
+import { UserInfo } from 'Src/store/reducers/user'
 import { Layout, Tooltip, Menu, Dropdown } from 'antd'
-import { UserInfo } from 'Src/models/type'
 import { MenuUnfoldOutlined, MenuFoldOutlined, SmileOutlined } from '@ant-design/icons'
 import './index.less'
 
@@ -8,13 +8,12 @@ const { Header } = Layout
 
 export interface HeaderType {
   collapsed: boolean
-  userinfo: UserInfo
+  userInfo: UserInfo
   onToggle: (value: boolean) => void
   onLogout: () => void
 }
 
-export default function MenuHeader({ collapsed, userinfo, onLogout, onToggle }: HeaderType) {
-  const { userBasicInfo } = userinfo
+export default function MenuHeader({ collapsed, userInfo, onLogout, onToggle }: HeaderType) {
   return (
     <Header className='menu-header'>
       <Tooltip title={collapsed ? '展开菜单' : '收起菜单'} placement='right'>
@@ -44,7 +43,7 @@ export default function MenuHeader({ collapsed, userinfo, onLogout, onToggle }: 
           }>
           <div className='userhead'>
             <SmileOutlined style={{ fontSize: 20 }} />
-            <span style={{ marginLeft: 6 }}>{userBasicInfo && userBasicInfo.username}</span>
+            <span style={{ marginLeft: 6 }}>{userInfo && userInfo.name}</span>
           </div>
         </Dropdown>
       </>

@@ -15,13 +15,13 @@ const onLogin = (p) => {
     return { code: 204, data: null, message: '密码错误' }
   }
   // 登录成功返回用户token
-  return { code: 200, data: { token: username }, message: '登录成功' }
+  return { code: 200, data: { token: token[username] }, message: '登录成功' }
 }
 
 // 根据token获取用户信息
 const userInfo = (p) => {
   if (p.token) {
-    return { code: 200, data: users[token], message: 'success' }
+    return { code: 200, data: users[p.token], message: 'success' }
   }
   return { code: 400, data: null, message: 'token错误或者token为空' }
 }

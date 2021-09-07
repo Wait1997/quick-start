@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Redirect, Route, Switch, useLocation, useHistory, RouteComponentProps } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { menuList } from 'Utils/menuList'
 import { Layout, Spin, message } from 'antd'
 import MenuSide from 'Components/Menu'
 import Breadcrumb from 'Components/Breadcrumb'
@@ -26,7 +27,7 @@ const BasicLayout: React.FC<RouteComponentProps> = () => {
   const location = useLocation()
   const history = useHistory()
   const dispatch = useDispatch()
-  const userInfo = useSelector((state: any) => state.app.userinfo)
+  const userInfo = useSelector((state: any) => state.user)
   const [collapsed, setCollapsed] = useState(false) // 菜单栏是否收起
 
   /**
@@ -37,11 +38,11 @@ const BasicLayout: React.FC<RouteComponentProps> = () => {
 
   return (
     <Layout className='basic-layout'>
-      <MenuSide data={userInfo.menus} collapsed={collapsed} />
+      <MenuSide data={menuList} collapsed={collapsed} />
       <Layout>
         <Header
           collapsed={collapsed}
-          userinfo={userInfo}
+          userInfo={userInfo}
           onToggle={(value) => setCollapsed(value)}
           onLogout={onLogout}
         />

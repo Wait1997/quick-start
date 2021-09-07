@@ -1,34 +1,46 @@
 /* eslint-disable unicorn/consistent-function-scoping */
 import React, { useState, useEffect, useRef } from 'react'
-import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Redirect, useHistory } from 'react-router-dom'
 import { Button, Form, Input, Checkbox, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { LoginReqType } from 'Api/login'
 import { onLogin } from 'Src/store/actions/auth'
+import { getUserInfo } from 'Src/store/actions/user'
 import './index.less'
 
 export type FormType = LoginReqType & { remember: boolean }
 
-export default function Login() {
+function Login(props: any) {
+  const { token } = props
+  const { login, userInfo } = props
   const history = useHistory()
-  const dispatch = useDispatch()
   const [form] = Form.useForm()
   const elUserRef = useRef<Input>(null)
   const elPassRef = useRef<Input>(null)
   const [checked, setChecked] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const handleUserInfo = (token: string) => {}
+  const handleUserInfo = async (to: string) => {
+    try {
+      await userInfo(to)
+      message.success('登录成功')
+      setLoading(false)
+      history.push('/dashboard')
+    } catch (error) {
+      setLoading(false)
+      message.error(error)
+    }
+  }
 
-  const onSubmit = (values: FormType) => {
+  const onSubmit = async (values: FormType) => {
     const { username, password } = values
     setLoading(true)
     try {
-      message.success('登录成功')
-      dispatch(onLogin({ username, password }))
-      // handleUserInfo(token)
+      const to: string = await login({ username, password })
+      handleUserInfo(to)
     } catch (error) {
+      setLoading(false)
       message.error(error)
     }
   }
@@ -48,6 +60,9 @@ export default function Login() {
     }
   }, [form])
 
+  if (token) {
+    return <Redirect to='/dashboard' />
+  }
   return (
     <div className='login-form'>
       <Form form={form} initialValues={{ remember: true }} onFinish={onSubmit}>
@@ -111,3 +126,5 @@ export default function Login() {
     </div>
   )
 }
+
+export default connect((state: any) => state.user, { login: onLogin, userInfo: getUserInfo })(Login)

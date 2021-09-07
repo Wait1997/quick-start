@@ -1,29 +1,35 @@
 import React, { FC } from 'react'
-import { useSelector } from 'react-redux'
+import { connect } from 'react-redux'
 import { HashRouter, Switch, Route, Redirect, RouteComponentProps } from 'react-router-dom'
+import { getUserInfo } from 'Src/store/actions/user'
 import UserLayout from 'Src/layouts/UserLayout'
 import BasicLayout from 'Src/layouts/BasicLayout'
 
-export default function Router() {
-  const token = useSelector((state: any) => state.user.token)
-  const role = useSelector((state: any) => state.user.role)
+function Router(props: any) {
+  const { token, role } = props
+  const { userInfo } = props
 
-  const routeEnter = (Component: FC<RouteComponentProps>, props: RouteComponentProps) => {
+  // eslint-disable-next-line consistent-return
+  const routeEnter = (Component: FC<RouteComponentProps>, p: RouteComponentProps) => {
     if (!token) {
       return <Redirect to='/user' />
     }
     if (role) {
-      return <Component {...props} />
+      return <Component {...p} />
     }
-    return <Component {...props} />
+    userInfo(token).then(() => {
+      return <Component {...p} />
+    })
   }
 
   return (
     <HashRouter>
       <Switch>
         <Route path='/user' component={UserLayout} />
-        <Route path='/' render={(props) => routeEnter(BasicLayout, props)} />
+        <Route path='/' render={(p) => routeEnter(BasicLayout, p)} />
       </Switch>
     </HashRouter>
   )
 }
+
+export default connect((state: any) => state.user, { userInfo: getUserInfo })(Router)

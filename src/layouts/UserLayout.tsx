@@ -25,6 +25,7 @@ const UserLayout: React.FC = () => {
           <Route path='/user/login' component={Login} exact />
           <Route path='/404' component={NotFound} exact />
           <Redirect from='/user' to='/user/login' />
+          <Redirect to='/404' />
         </Switch>
       </Content>
       <Footer className='user-footer'>Ant Design</Footer>
