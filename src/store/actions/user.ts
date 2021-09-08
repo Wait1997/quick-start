@@ -23,7 +23,6 @@ export const getUserInfo = (token: string) => {
           }
         })
         .catch((error) => {
-          message.error(error)
           reject(error)
         })
     })

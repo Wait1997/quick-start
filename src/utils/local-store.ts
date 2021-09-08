@@ -3,7 +3,10 @@ export const set = (storeName: string, storeValue: any): void => {
 }
 
 export const get = (storeName: string): string | null => {
-  return localStorage.getItem(storeName)
+  if (localStorage.getItem(storeName)) {
+    return JSON.parse(localStorage.getItem(storeName) as string)
+  }
+  return null
 }
 
 export const remove = (storeName: string): void => {

@@ -1,27 +1,16 @@
 import React, { useState } from 'react'
-import { Redirect, Route, Switch, RouteComponentProps } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { menuList } from 'Utils/menuList'
-import { Layout, Spin } from 'antd'
+import routeList from 'Utils/routeList'
+import { Layout } from 'antd'
 import MenuSide from 'Components/Menu'
 import Breadcrumb from 'Components/Breadcrumb'
 import Header from 'Components/Header'
-import loadable from '@loadable/component'
+import Content from 'Components/Content'
 import './BasicLayout.less'
 
-const { Content, Footer } = Layout
-
-const [Dashboard, SystemManager, Table, Charts, NoAuth] = [
-  () => import('Pages/Dashboard'),
-  () => import('Pages/SystemManager'),
-  () => import('Pages/Table'),
-  () => import('Pages/Charts'),
-  () => import('Pages/ErrorPage/403')
-].map((item) =>
-  loadable(item, {
-    fallback: <Spin />
-  })
-)
+const { Footer } = Layout
 
 const BasicLayout: React.FC<RouteComponentProps> = () => {
   const userInfo = useSelector((state: any) => state.user)
@@ -35,7 +24,7 @@ const BasicLayout: React.FC<RouteComponentProps> = () => {
 
   return (
     <Layout className='basic-layout'>
-      <MenuSide data={menuList} collapsed={collapsed} />
+      <MenuSide className='basic-sider' data={menuList} collapsed={collapsed} />
       <Layout>
         <Header
           collapsed={collapsed}
@@ -43,17 +32,8 @@ const BasicLayout: React.FC<RouteComponentProps> = () => {
           onToggle={(value) => setCollapsed(value)}
           onLogout={onLogout}
         />
-        <Breadcrumb menus={userInfo.menus} />
-        <Content className='content'>
-          <Switch>
-            <Route path='/dashboard' component={Dashboard} />
-            <Route path='/system' render={(props) => <SystemManager />} />
-            <Route path='/table' render={(props) => <Table />} />
-            <Route path='/charts' render={(props) => <Charts />} />
-            <Route path='/403' component={NoAuth} />
-            <Redirect to='dashboard' />
-          </Switch>
-        </Content>
+        <Breadcrumb menuList={menuList} />
+        <Content className='content' list={routeList} />
         <Footer>Footer</Footer>
       </Layout>
     </Layout>

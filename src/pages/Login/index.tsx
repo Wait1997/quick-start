@@ -12,6 +12,7 @@ import './index.less'
 export type FormType = LoginReqType & { remember: boolean }
 
 function Login(props: any) {
+  const { token } = props
   const { login, userInfo } = props
   const history = useHistory()
   const [form] = Form.useForm()
@@ -45,19 +46,12 @@ function Login(props: any) {
   }
 
   useEffect(() => {
-    if (localStorage.getItem('user')) {
-      const user = JSON.parse(localStorage.getItem('user') as string)
-      if (user) {
-        setChecked(true)
-        form.setFieldsValue({
-          username: user.username,
-          password: user.password
-        })
-      }
+    if (token) {
+      history.push('/dashboard')
     } else if (elUserRef.current) {
       elUserRef.current.focus()
     }
-  }, [form])
+  }, [form, token, history])
 
   return (
     <div className='login-form'>
