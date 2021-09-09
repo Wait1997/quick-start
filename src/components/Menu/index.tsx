@@ -19,18 +19,18 @@ export interface MenuProps {
   style?: React.CSSProperties
 }
 
-export default function MenuSide({ data, width = 200, theme = 'dark', collapsed, className, style }: MenuProps) {
+export default function MenuSide({ data, width = 200, theme = 'light', collapsed, className, style }: MenuProps) {
   const history = useHistory()
   const location = useLocation()
   // 当前用户的角色
   const role = useSelector((state: any) => state.user.role)
-  const [chosedKey, setChosedKey] = useState<string[]>([])
-  const [openKeys, setOpenKeys] = useState<string[]>([])
+  // const [chosedKey, setChosedKey] = useState<string[]>([])
+  // const [openKeys, setOpenKeys] = useState<string[]>([])
 
   useEffect(() => {
-    const paths = location.pathname.split('/').filter(Boolean)
-    setChosedKey([location.pathname])
-    setOpenKeys(paths.map((item) => `/${item}`))
+    // const paths = location.pathname.split('/').filter(Boolean)
+    // setChosedKey([location.pathname])
+    // setOpenKeys(paths.map((item) => `/${item}`))
   }, [location])
 
   const hasPermisssion = useCallback(
@@ -66,12 +66,19 @@ export default function MenuSide({ data, width = 200, theme = 'dark', collapsed,
   )
 
   return (
-    <Sider width={width} className={cn(className)} style={style} collapsed={collapsed} trigger={null} collapsible>
+    <Sider
+      theme={theme}
+      width={width}
+      className={cn(className)}
+      style={style}
+      collapsed={collapsed}
+      trigger={null}
+      collapsible>
       <AntdMenu
         theme={theme}
-        selectedKeys={chosedKey}
-        openKeys={openKeys}
-        onOpenChange={(keys) => setOpenKeys(keys as string[])}
+        // selectedKeys={chosedKey}
+        // openKeys={openKeys}
+        // onOpenChange={(keys) => setOpenKeys(keys as string[])}
         onSelect={(select) => history.push(select.key)}
         mode='inline'>
         {getMenuNodes(data)}

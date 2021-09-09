@@ -18,6 +18,14 @@ const onLogin = (p) => {
   return { code: 200, data: { token: token[username] }, message: '登录成功' }
 }
 
+// 退出登录
+const logout = (p) => {
+  if (p.token) {
+    return { code: 200, data: null, message: 'success' }
+  }
+  return { code: 400, data: null, message: 'error' }
+}
+
 // 根据token获取用户信息
 const userInfo = (p) => {
   if (p.token) {
@@ -54,6 +62,8 @@ exports.mockApi = (obj) => {
   switch (path) {
     case '/api/login':
       return onLogin(params)
+    case '/api/logout':
+      return logout(params)
     case '/api/userInfo':
       return userInfo(params)
     default:

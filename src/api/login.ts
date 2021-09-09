@@ -17,6 +17,10 @@ export function apiPostLogin({ username, password }: LoginReqType): Promise<Resp
   return webapi.post('/api/login', { username, password })
 }
 
+export function apiPostLogout(token: string): Promise<Response<string>> {
+  return webapi.post('api/logout', { token })
+}
+
 export function apiPostUserInfo(token: string): Promise<Response<UserBasicInfo | null>> {
   return webapi.post('/api/userInfo', { token })
 }

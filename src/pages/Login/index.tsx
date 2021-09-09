@@ -26,7 +26,7 @@ function Login(props: any) {
       await userInfo(to)
       message.success('登录成功')
       setLoading(false)
-      history.push('/dashboard')
+      history.replace('/dashboard')
     } catch (error) {
       setLoading(false)
       message.error(error)

@@ -25,7 +25,7 @@ export default function LayoutContent({ list, className }: ContentProps) {
    * @param roles 当前路由组件的权限
    * @returns 路由组件
    */
-  const checkPermission = (Component: any, roles: string[]) => {
+  const checkPermission = (Component: any, roles?: string[]) => {
     if (roles && Array.isArray(roles)) {
       if (Array.isArray(role)) {
         if (role.some((item) => roles.includes(item))) {
@@ -44,13 +44,13 @@ export default function LayoutContent({ list, className }: ContentProps) {
       <TransitionGroup>
         <CSSTransition classNames='fade' key={location.pathname} timeout={300} exit={false}>
           <Switch>
-            <Redirect exact from='/' to='/dashboard' />
+            <Redirect exact from='/' to='/dashboard/analysis' />
             {list.map((route) => {
               return (
                 <Route
                   key={route.path}
                   path={route.path}
-                  render={() => checkPermission(route.component, route.roles)}
+                  render={() => checkPermission(route.component, route?.roles)}
                 />
               )
             })}

@@ -29,4 +29,14 @@ export const getUserInfo = (token: string) => {
   }
 }
 
+/**
+ * 重置用户数据
+ * @returns dispatch action
+ */
+export const resetUser = () => {
+  return {
+    type: types.USER_RESET_USER
+  }
+}
+
 export const setUserToken = (token: string) => ({ type: types.USER_SET_USER_TOKEN, payload: token })

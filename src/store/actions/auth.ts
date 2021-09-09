@@ -1,6 +1,7 @@
-import { LoginReqType, apiPostLogin } from 'Api/login'
-import { set } from 'Src/utils/local-store'
-import { setUserToken } from './user'
+import { message } from 'antd'
+import { LoginReqType, apiPostLogin, apiPostLogout } from 'Api/login'
+import { set, remove } from 'Src/utils/local-store'
+import { setUserToken, resetUser } from './user'
 
 export const onLogin = ({ username, password }: LoginReqType) => {
   return (dispatch: any) => {
@@ -15,8 +16,27 @@ export const onLogin = ({ username, password }: LoginReqType) => {
           }
         })
         .catch((error) => {
-          const { message } = error
-          reject(message)
+          reject(error.message)
+        })
+    })
+  }
+}
+
+export const logout = (token: string) => {
+  return (dispatch: any) => {
+    return new Promise<void>((resolve, reject) => {
+      apiPostLogout(token)
+        .then((res) => {
+          if (res.code === 200) {
+            dispatch(resetUser())
+            remove('token')
+            resolve()
+          } else {
+            message.error(res.message)
+          }
+        })
+        .catch((error) => {
+          reject(error)
         })
     })
   }

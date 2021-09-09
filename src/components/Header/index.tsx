@@ -13,16 +13,25 @@ export interface HeaderType {
   onLogout: () => void
 }
 
-export default function MenuHeader({ collapsed, userInfo, onLogout, onToggle }: HeaderType) {
+export default function MenuHeader({
+  collapsed,
+  userInfo,
+  onLogout,
+  onToggle,
+  children
+}: React.PropsWithChildren<HeaderType>) {
   return (
     <Header className='menu-header'>
-      <Tooltip title={collapsed ? '展开菜单' : '收起菜单'} placement='right'>
-        {collapsed ? (
-          <MenuUnfoldOutlined style={{ fontSize: 20 }} onClick={() => onToggle(false)} />
-        ) : (
-          <MenuFoldOutlined style={{ fontSize: 20 }} onClick={() => onToggle(true)} />
-        )}
-      </Tooltip>
+      <div className='head-left'>
+        <Tooltip title={collapsed ? '展开菜单' : '收起菜单'} placement='right'>
+          {collapsed ? (
+            <MenuUnfoldOutlined style={{ fontSize: 20 }} onClick={() => onToggle(false)} />
+          ) : (
+            <MenuFoldOutlined style={{ fontSize: 20 }} onClick={() => onToggle(true)} />
+          )}
+        </Tooltip>
+        {children}
+      </div>
       <>
         <Dropdown
           trigger={['click']}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { RouteComponentProps } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { connect } from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { logout } from 'Src/store/actions/auth'
 import { menuList } from 'Utils/menuList'
 import routeList from 'Utils/routeList'
 import { Layout } from 'antd'
@@ -10,17 +11,10 @@ import Header from 'Components/Header'
 import Content from 'Components/Content'
 import './BasicLayout.less'
 
-const { Footer } = Layout
-
-const BasicLayout: React.FC<RouteComponentProps> = () => {
-  const userInfo = useSelector((state: any) => state.user)
+const BasicLayout: React.FC<any> = (props) => {
+  const { userInfo } = props
+  const history = useHistory()
   const [collapsed, setCollapsed] = useState(false) // 菜单栏是否收起
-
-  /**
-   * @description 退出登录
-   */
-  // eslint-disable-next-line unicorn/consistent-function-scoping
-  const onLogout = () => {}
 
   return (
     <Layout className='basic-layout'>
@@ -30,14 +24,23 @@ const BasicLayout: React.FC<RouteComponentProps> = () => {
           collapsed={collapsed}
           userInfo={userInfo}
           onToggle={(value) => setCollapsed(value)}
-          onLogout={onLogout}
-        />
-        <Breadcrumb menuList={menuList} />
+          onLogout={async () => {
+            await props.logout(userInfo.token)
+            history.replace('/user/login')
+          }}>
+          <Breadcrumb menuList={menuList} />
+        </Header>
         <Content className='content' list={routeList} />
-        <Footer>Footer</Footer>
       </Layout>
     </Layout>
   )
 }
 
-export default BasicLayout
+export default connect(
+  (state: any) => {
+    return {
+      userInfo: state.user
+    }
+  },
+  { logout }
+)(BasicLayout)

@@ -22,9 +22,9 @@ const UserLayout: React.FC = () => {
           <div className='user-content-top-desc'>Ant Design admin template</div>
         </div>
         <Switch>
-          <Route path='/user/login' component={Login} exact />
-          <Route path='/404' component={NotFound} exact />
-          <Redirect from='/user' to='/user/login' />
+          <Redirect from='/user' to='/user/login' exact />
+          <Route path='/user/login' component={Login} />
+          <Route path='/404' component={NotFound} />
           <Redirect to='/404' />
         </Switch>
       </Content>

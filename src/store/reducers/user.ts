@@ -30,6 +30,13 @@ export default function user(state = initUserInfo, action: any) {
         avatar: payload.avatar,
         name: payload.name
       }
+    case types.USER_RESET_USER:
+      return {
+        token: null,
+        name: '',
+        role: '',
+        avatar: ''
+      }
     default:
       return state
   }
