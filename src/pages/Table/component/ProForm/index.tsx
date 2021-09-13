@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import { Form, Input, Select, DatePicker, Button, Row, Col, Space } from 'antd'
+import { Status } from '../ProTable'
 import Collapse from '../Collapse'
 import './index.less'
 
@@ -8,10 +9,12 @@ const { Option } = Select
 export default function ProForm({
   count = 2,
   isExpand = true,
+  statusList,
   handleQuery
 }: {
   count?: number
   isExpand?: boolean
+  statusList: Array<{ value: Status; title: string }>
   handleQuery: (values: any) => void
 }) {
   const formElement = useMemo(() => {
@@ -34,8 +37,11 @@ export default function ProForm({
       <Col xl={6} lg={8} key='status'>
         <Form.Item label='状态' name='status'>
           <Select placeholder='请选择'>
-            <Option value='jack'>Jack</Option>
-            <Option value='lucy'>Lucy</Option>
+            {statusList.map((item) => (
+              <Option key={item.value} value={item.value}>
+                {item.title}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
       </Col>,
@@ -45,7 +51,8 @@ export default function ProForm({
         </Form.Item>
       </Col>
     ]
-  }, [])
+  }, [statusList])
+
   const [form] = Form.useForm()
   const [expand, setExpand] = useState(() => isExpand)
   const [formList, setFormList] = useState(formElement)

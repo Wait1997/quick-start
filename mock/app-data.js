@@ -1,4 +1,5 @@
 const users = require('./data/user')
+const dataLists = require('./data/table/query')
 
 const token = {
   admin: 'admin-token',
@@ -34,6 +35,69 @@ const userInfo = (p) => {
   return { code: 400, data: null, message: 'token错误或者token为空' }
 }
 
+const getTableList = (p) => {
+  const { pageIndex = 1, pageSize = 10, name, status } = p
+  if (name && status) {
+    const list = dataLists.filter((item) => item.name.includes(name) && item.status.includes(status))
+    // 分页
+    return {
+      code: 200,
+      data: { count: list.length, list: list.slice((pageIndex - 1) * pageSize, pageIndex * pageSize) },
+      message: 'success'
+    }
+  }
+  if (name) {
+    const list = dataLists.filter((item) => item.name.includes(name))
+    // 分页
+    return {
+      code: 200,
+      data: {
+        count: list.length,
+        list: list.slice((pageIndex - 1) * pageSize, pageIndex * pageSize)
+      },
+      message: 'success'
+    }
+  }
+  if (status) {
+    const list = dataLists.filter((item) => item.status.includes(status))
+    return {
+      code: 200,
+      data: { count: list.length, list: list.slice((pageIndex - 1) * pageSize, pageIndex * pageSize) },
+      message: 'success'
+    }
+  }
+  return {
+    code: 200,
+    data: { count: dataLists.length, list: dataLists.slice((pageIndex - 1) * pageSize, pageIndex * pageSize) },
+    message: 'success'
+  }
+}
+
+const getModifyItem = (p) => {
+  const { id, desc, serveCount, serveTime } = p
+  if (id !== undefined) {
+    for (const item of dataLists) {
+      if (item.key === id) {
+        item.name = p.name
+        item.desc = desc
+        item.serveCount = serveCount
+        item.status = p.status
+        item.serveTime = serveTime
+      }
+    }
+    return { code: 200, data: null, message: 'success' }
+  }
+  dataLists.unshift({
+    key: 0,
+    name: p.name,
+    desc,
+    serveCount,
+    status: p.status,
+    serveTime
+  })
+  return { code: 200, data: null, message: 'success' }
+}
+
 exports.mockApi = (obj) => {
   const { url, body } = obj
   let params = typeof body === 'string' ? JSON.parse(body) : body
@@ -66,6 +130,10 @@ exports.mockApi = (obj) => {
       return logout(params)
     case '/api/userInfo':
       return userInfo(params)
+    case '/api/query/table':
+      return getTableList(params)
+    case '/api/modify/table':
+      return getModifyItem(params)
     default:
       return { code: 404, data: null, message: 'api not found' }
   }
