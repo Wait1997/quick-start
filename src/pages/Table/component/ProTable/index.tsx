@@ -128,7 +128,7 @@ export default function ProTable({
       try {
         const values = await form.validateFields()
         const tableData = datalist.map((item) =>
-          item.key === recond.key ? { ...item, desc: values.values, editDesc: false } : item
+          item.key === recond.key ? { ...item, desc: values.desc, editDesc: false } : item
         )
         callbackTableData(tableData)
       } catch (error) {
@@ -364,6 +364,14 @@ export default function ProTable({
     const keys = datalist.map((item) => item.key)
     setSelectedRowKeys(keys.filter((key) => selectAllRowKeys.includes(key)))
   }, [datalist, selectAllRowKeys])
+
+  useEffect(() => {
+    for (const item of datalist) {
+      if (item.editDesc && inputEl.current) {
+        inputEl.current?.focus()
+      }
+    }
+  }, [datalist])
 
   return (
     <div className='pro-table'>

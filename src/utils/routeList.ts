@@ -11,7 +11,7 @@ const RichText = loadable(() => import('Pages/Component/RichText'))
 const Markdown = loadable(() => import('Pages/Component/Markdown'))
 const Draggable = loadable(() => import('Pages/Component/Draggable'))
 const TableQuery = loadable(() => import('Pages/Table/Query'))
-const TableStandard = loadable(() => import('Pages/Table/Standard'))
+const TableStandard = loadable(() => import('Src/pages/Table/Standard'))
 const NoFound = loadable(() => import('Pages/ErrorPage/404'))
 const NoAuth = loadable(() => import('Pages/ErrorPage/403'))
 
