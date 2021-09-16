@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import { Row, Col, DatePicker } from 'antd'
 import cn from 'classnames'
-import ProCard from '../ProCard'
+import ProCard from '../../component/ProCard'
 import ColumnCharts from './Charts'
 import './index.less'
 
@@ -29,6 +29,7 @@ export default function PopularityCard() {
 
   return (
     <ProCard
+      className='pro-card'
       loading={false}
       activeTabKey={activeTabKey}
       tabList={tabList}

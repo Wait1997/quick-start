@@ -1,12 +1,16 @@
 import React from 'react'
 import { UserInfo } from 'Src/store/reducers/user'
-import { Layout, Tooltip, Menu, Dropdown } from 'antd'
+import { Layout, Menu, Dropdown } from 'antd'
 import { MenuUnfoldOutlined, MenuFoldOutlined, SmileOutlined } from '@ant-design/icons'
+import cn from 'classnames'
 import './index.less'
 
 const { Header } = Layout
 
 export interface HeaderType {
+  width?: number
+  collapsedWidth?: number
+  fixedHeader?: boolean
   collapsed: boolean
   userInfo: UserInfo
   onToggle: (value: boolean) => void
@@ -18,44 +22,65 @@ export default function MenuHeader({
   userInfo,
   onLogout,
   onToggle,
-  children
+  children,
+  fixedHeader = true
 }: React.PropsWithChildren<HeaderType>) {
   return (
-    <Header className='menu-header'>
-      <div className='head-left'>
-        <Tooltip title={collapsed ? '展开菜单' : '收起菜单'} placement='right'>
-          {collapsed ? (
-            <MenuUnfoldOutlined style={{ fontSize: 20 }} onClick={() => onToggle(false)} />
-          ) : (
-            <MenuFoldOutlined style={{ fontSize: 20 }} onClick={() => onToggle(true)} />
-          )}
-        </Tooltip>
-        {children}
-      </div>
-      <>
-        <Dropdown
-          trigger={['click']}
-          overlay={
-            <Menu>
-              <Menu.Item key='0'>
-                <a href='https://www.antgroup.com'>antgroup</a>
-              </Menu.Item>
-              <Menu.Divider />
-              <Menu.Item key='1'>
-                <a href='https://www.aliyun.com'>aliyun</a>
-              </Menu.Item>
-              <Menu.Divider />
-              <Menu.Item key='3' onClick={onLogout}>
-                退出登录
-              </Menu.Item>
-            </Menu>
-          }>
-          <div className='userhead'>
-            <SmileOutlined style={{ fontSize: 20 }} />
-            <span style={{ marginLeft: 6 }}>{userInfo && userInfo.name}</span>
+    <>
+      {fixedHeader && <Header style={{ height: 48, backgroundColor: 'transparent', lineHeight: 48 }} />}
+      <Header
+        className={cn('menu-header', { 'fixed-header': fixedHeader })}
+        style={{
+          height: 48,
+          padding: 0,
+          backgroundColor: '#fff',
+          width: collapsed ? 'calc(100% - 48px)' : 'calc(100% - 208px)'
+        }}>
+        <div className='head-wrap'>
+          <div className='head-left'>
+            {collapsed ? (
+              <MenuUnfoldOutlined
+                style={{ fontSize: 18, color: '#1890ff' }}
+                onClick={() => {
+                  onToggle(false)
+                }}
+              />
+            ) : (
+              <MenuFoldOutlined
+                style={{ fontSize: 18, color: '#1890ff' }}
+                onClick={() => {
+                  onToggle(true)
+                }}
+              />
+            )}
+            {children}
           </div>
-        </Dropdown>
-      </>
-    </Header>
+          <div className='head-right'>
+            <Dropdown
+              trigger={['click']}
+              overlay={
+                <Menu>
+                  <Menu.Item key='0'>
+                    <a href='https://www.antgroup.com'>antgroup</a>
+                  </Menu.Item>
+                  <Menu.Divider />
+                  <Menu.Item key='1'>
+                    <a href='https://www.aliyun.com'>aliyun</a>
+                  </Menu.Item>
+                  <Menu.Divider />
+                  <Menu.Item key='3' onClick={onLogout}>
+                    退出登录
+                  </Menu.Item>
+                </Menu>
+              }>
+              <div className='userhead'>
+                <SmileOutlined style={{ fontSize: 20 }} />
+                <span style={{ marginLeft: 6 }}>{userInfo && userInfo.name}</span>
+              </div>
+            </Dropdown>
+          </div>
+        </div>
+      </Header>
+    </>
   )
 }

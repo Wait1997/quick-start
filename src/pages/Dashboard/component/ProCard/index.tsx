@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { Card } from 'antd'
-import './index.less'
+import cn from 'classnames'
 
 export interface ProCardProps {
   loading: boolean
@@ -16,6 +16,7 @@ export interface ProCardProps {
   actions?: React.ReactNode[]
   onTabChange?: (key: string) => void
   children?: React.ReactNode
+  className?: string
 }
 
 export default memo(function ProCard({
@@ -29,6 +30,7 @@ export default memo(function ProCard({
   bordered = true,
   children,
   bodyStyle,
+  className,
   ...rest
 }: ProCardProps) {
   return (
@@ -43,7 +45,7 @@ export default memo(function ProCard({
       bordered={bordered}
       bodyStyle={bodyStyle ?? { padding: 0 }}
       {...rest}>
-      <div className='pro-card'>{children}</div>
+      <div className={cn(className)}>{children}</div>
     </Card>
   )
 })

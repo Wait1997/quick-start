@@ -19,11 +19,13 @@ const BasicLayout: React.FC<any> = (props) => {
   return (
     <Layout className='basic-layout'>
       <MenuSide className='basic-sider' data={menuList} collapsed={collapsed} />
-      <Layout>
+      <Layout className='content-layout'>
         <Header
           collapsed={collapsed}
           userInfo={userInfo}
-          onToggle={(value) => setCollapsed(value)}
+          onToggle={(value) => {
+            setCollapsed(value)
+          }}
           onLogout={async () => {
             await props.logout(userInfo.token)
             history.replace('/user/login')

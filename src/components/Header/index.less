@@ -1,18 +1,33 @@
 .menu-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 16px !important;
-  background-color: #fff !important;
+  line-height: 48px !important;
 
-  .head-left {
-    display: flex;
-    align-items: center;
+  &.fixed-header {
+    position: fixed;
+    top: 0;
+    z-index: 19;
   }
 
-  .userhead {
+  .head-wrap {
     display: flex;
     align-items: center;
-    cursor: pointer;
+    justify-content: space-between;
+    padding: 0 16px;
+    box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
+
+    .head-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .head-right {
+      display: flex;
+      align-items: center;
+
+      .userhead {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+    }
   }
 }

@@ -3,9 +3,9 @@ import numeral from 'numeral'
 import { Row, Col, Tooltip } from 'antd'
 import { TinyArea, TinyColumn, Progress } from '@ant-design/charts'
 import { InfoCircleOutlined } from '@ant-design/icons'
-import ChartCard from '../ChartCard'
+import ChartCard from '../../component/ChartCard'
 import Trend from '../Trend'
-import Field from '../Field'
+import Field from '../../component/Field'
 import './index.less'
 
 const topColResponsiveProps = {

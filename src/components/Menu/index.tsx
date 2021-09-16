@@ -1,11 +1,10 @@
-/* eslint-disable array-callback-return */
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory, useLocation } from 'react-router-dom'
 import { Layout, Menu as AntdMenu } from 'antd'
-// import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
 import { MenuType } from 'Utils/menuList'
 import cn from 'classnames'
+import './index.less'
 
 const { Sider } = Layout
 const { SubMenu, Item } = AntdMenu
@@ -13,24 +12,36 @@ const { SubMenu, Item } = AntdMenu
 export interface MenuProps {
   data: MenuType[]
   width?: number
+  collapsedWidth?: number
   theme?: 'light' | 'dark'
   collapsed: boolean
   className?: string
+  fixedSider?: boolean
   style?: React.CSSProperties
 }
 
-export default function MenuSide({ data, width = 200, theme = 'light', collapsed, className, style }: MenuProps) {
+export default function MenuSide({
+  data,
+  width = 208,
+  collapsedWidth = 48,
+  theme = 'light',
+  collapsed,
+  className,
+  fixedSider = true,
+  style
+}: MenuProps) {
   const history = useHistory()
   const location = useLocation()
   // 当前用户的角色
   const role = useSelector((state: any) => state.user.role)
-  // const [chosedKey, setChosedKey] = useState<string[]>([])
-  // const [openKeys, setOpenKeys] = useState<string[]>([])
+  const [selectedKeys, setSelectedKeys] = useState<string[]>([])
+  const [openKeys, setOpenKeys] = useState<string[]>([])
 
   useEffect(() => {
-    // const paths = location.pathname.split('/').filter(Boolean)
-    // setChosedKey([location.pathname])
-    // setOpenKeys(paths.map((item) => `/${item}`))
+    const { pathname } = location
+    const pathList = pathname.split('/').find(Boolean)
+    setSelectedKeys([pathname])
+    setOpenKeys([`/${pathList}`])
   }, [location])
 
   const hasPermisssion = useCallback(
@@ -48,7 +59,6 @@ export default function MenuSide({ data, width = 200, theme = 'light', collapsed
 
   const getMenuNodes = useCallback(
     (menu: MenuType[]) => {
-      // eslint-disable-next-line consistent-return
       const treeDom = menu.map((item) => {
         if (hasPermisssion(item)) {
           return item.children ? (
@@ -59,6 +69,7 @@ export default function MenuSide({ data, width = 200, theme = 'light', collapsed
             <Item key={item.path}>{item.title}</Item>
           )
         }
+        return null
       })
       return treeDom
     },
@@ -66,23 +77,52 @@ export default function MenuSide({ data, width = 200, theme = 'light', collapsed
   )
 
   return (
-    <Sider
-      theme={theme}
-      width={width}
-      className={cn(className)}
-      style={style}
-      collapsed={collapsed}
-      trigger={null}
-      collapsible>
-      <AntdMenu
+    <>
+      {fixedSider && (
+        <div
+          style={
+            collapsed
+              ? {
+                  width: collapsedWidth,
+                  minWidth: collapsedWidth,
+                  maxWidth: collapsedWidth,
+                  overflow: 'hidden'
+                }
+              : {
+                  width,
+                  minWidth: width,
+                  maxWidth: width,
+                  overflow: 'hidden'
+                }
+          }
+        />
+      )}
+      <Sider
         theme={theme}
-        // selectedKeys={chosedKey}
-        // openKeys={openKeys}
-        // onOpenChange={(keys) => setOpenKeys(keys as string[])}
-        onSelect={(select) => history.push(select.key)}
-        mode='inline'>
-        {getMenuNodes(data)}
-      </AntdMenu>
-    </Sider>
+        width={width}
+        collapsedWidth={collapsedWidth}
+        className={cn(className, 'menu-sider', { 'fixed-sider': fixedSider })}
+        style={style}
+        collapsed={collapsed}
+        trigger={null}
+        collapsible>
+        <div className='menu-wrap'>
+          <AntdMenu
+            theme={theme}
+            selectedKeys={selectedKeys}
+            openKeys={openKeys}
+            onOpenChange={(keys) => {
+              setOpenKeys(keys as string[])
+            }}
+            onSelect={(select) => {
+              setSelectedKeys([select.key])
+              history.push(select.key)
+            }}
+            mode='inline'>
+            {getMenuNodes(data)}
+          </AntdMenu>
+        </div>
+      </Sider>
+    </>
   )
 }
