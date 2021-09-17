@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { logout } from 'Src/store/actions/auth'
 import { menuList } from 'Utils/menuList'
-import routeList from 'Utils/routeList'
 import { Layout } from 'antd'
 import MenuSide from 'Components/Menu'
 import Breadcrumb from 'Components/Breadcrumb'
@@ -12,7 +11,7 @@ import Content from 'Components/Content'
 import './BasicLayout.less'
 
 const BasicLayout: React.FC<any> = (props) => {
-  const { userInfo } = props
+  const { userInfo, children } = props
   const history = useHistory()
   const [collapsed, setCollapsed] = useState(false) // 菜单栏是否收起
 
@@ -32,7 +31,7 @@ const BasicLayout: React.FC<any> = (props) => {
           }}>
           <Breadcrumb menuList={menuList} />
         </Header>
-        <Content className='content' list={routeList} />
+        <Content className='content' list={children} />
       </Layout>
     </Layout>
   )

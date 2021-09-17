@@ -1,32 +1,42 @@
-import React, { FC } from 'react'
+/* eslint-disable react/no-children-prop */
+import React from 'react'
 import { connect } from 'react-redux'
-import { HashRouter, Switch, Route, Redirect, RouteComponentProps } from 'react-router-dom'
+import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
 import { getUserInfo } from 'Src/store/actions/user'
-import UserLayout from 'Src/layouts/UserLayout'
-import BasicLayout from 'Src/layouts/BasicLayout'
+import routerList, { RouteListType } from 'Src/utils/routeList'
 
 function Router(props: any) {
   const { token, role } = props
   const { userInfo } = props
 
-  // eslint-disable-next-line consistent-return
-  const routeEnter = (Component: FC<RouteComponentProps>, p: RouteComponentProps) => {
+  const routeEnter = (route: RouteListType, rest: any) => {
+    const Component = route.component as any
     if (!token) {
       return <Redirect to='/user' />
     }
-    if (role) {
-      return <Component {...p} />
+    if (!role) {
+      userInfo(token).then(() => {
+        return <Component children={route.children} {...rest} />
+      })
     }
-    userInfo(token).then(() => {
-      return <Component {...p} />
-    })
+    return <Component children={route.children} {...rest} />
   }
 
   return (
     <HashRouter>
       <Switch>
-        <Route path='/user' component={UserLayout} />
-        <Route path='/' render={(p) => routeEnter(BasicLayout, p)} />
+        {routerList.map((route) => {
+          const Component = route.component as any
+          return (
+            <Route
+              key={route.path}
+              path={route.path}
+              render={({ ...rest }) =>
+                route.path === '/' ? routeEnter(route, rest) : <Component children={route.children} {...rest} />
+              }
+            />
+          )
+        })}
       </Switch>
     </HashRouter>
   )

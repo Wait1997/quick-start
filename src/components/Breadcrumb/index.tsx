@@ -13,7 +13,7 @@ export interface BreadType {
 export type BreadListType = { title: string; path: string }
 
 function getBreadPath(pathname: string, menuList: MenuType[]): BreadListType[] {
-  return menuList.reduce((all: BreadListType[], item: MenuType): BreadListType[] => {
+  return menuList.reduce<BreadListType[]>((all: BreadListType[], item: MenuType) => {
     if (pathname.includes(item.path)) {
       if (item.children) {
         all.unshift(...getBreadPath(pathname, item.children))
@@ -30,9 +30,13 @@ export default function Breadcrumb({ menuList }: BreadType) {
 
   const { pathname } = location
   const breadList = getBreadPath(pathname, menuList)
-  const first = breadList[0]
-  if (first.path !== '/dashboard') {
-    breadList.unshift({ title: '首页', path: '/dashboard' })
+  try {
+    const first = breadList[0]
+    if (first && first.path !== '/dashboard') {
+      breadList.unshift({ title: '首页', path: '/dashboard' })
+    }
+  } catch (error) {
+    throw new Error(error as string)
   }
 
   const breadItem = useMemo(() => {

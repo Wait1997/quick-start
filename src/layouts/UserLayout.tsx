@@ -1,18 +1,15 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import { Route, Redirect, Switch } from 'react-router-dom'
-import loadable from '@loadable/component'
-import { Layout, Spin } from 'antd'
+import { Layout } from 'antd'
 import './UserLayout.less'
 
 const { Content, Footer } = Layout
 
-const [Login, NotFound] = [() => import('../pages/Login'), () => import('../pages/ErrorPage/404')].map((item) => {
-  return loadable(item, {
-    fallback: <Spin />
-  })
-})
+export default function UserLayout(props: any) {
+  const { children } = props
+  const token = useSelector((state: any) => state.user.token)
 
-const UserLayout: React.FC = () => {
   return (
     <Layout className='user-layout'>
       <div className='user-header' />
@@ -22,15 +19,27 @@ const UserLayout: React.FC = () => {
           <div className='user-content-top-desc'>Ant Design admin template</div>
         </div>
         <Switch>
-          <Redirect from='/user' to='/user/login' exact />
-          <Route path='/user/login' component={Login} />
-          <Route path='/404' component={NotFound} />
-          <Redirect to='/404' />
+          {children.map((route: any) => {
+            const Component = route && route.component
+            if (route.redirect) {
+              return <Redirect exact key={route.path} from={route.path} to={route.redirect} />
+            }
+            return (
+              <Route
+                key={route.path}
+                path={route.path}
+                render={({ ...rest }) => {
+                  if (token) {
+                    return <Redirect to='/dashboard' />
+                  }
+                  return Component && <Component {...rest} />
+                }}
+              />
+            )
+          })}
         </Switch>
       </Content>
       <Footer className='user-footer'>Ant Design</Footer>
     </Layout>
   )
 }
-
-export default UserLayout

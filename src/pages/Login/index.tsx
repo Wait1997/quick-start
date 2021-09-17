@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/consistent-function-scoping */
 import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
@@ -12,7 +11,6 @@ import './index.less'
 export type FormType = LoginReqType & { remember: boolean }
 
 function Login(props: any) {
-  const { token } = props
   const { login, userInfo } = props
   const history = useHistory()
   const [form] = Form.useForm()
@@ -29,7 +27,7 @@ function Login(props: any) {
       history.replace('/dashboard')
     } catch (error) {
       setLoading(false)
-      message.error(error)
+      message.error(error as string)
     }
   }
 
@@ -41,17 +39,15 @@ function Login(props: any) {
       handleUserInfo(to)
     } catch (error) {
       setLoading(false)
-      message.error(error)
+      message.error(error as string)
     }
   }
 
   useEffect(() => {
-    if (token) {
-      history.push('/dashboard')
-    } else if (elUserRef.current) {
+    if (elUserRef.current) {
       elUserRef.current.focus()
     }
-  }, [form, token, history])
+  }, [])
 
   return (
     <div className='login-form'>

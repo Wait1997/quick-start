@@ -3,15 +3,12 @@ import { Layout } from 'antd'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import { Redirect, Switch, Route, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import routeList from 'Src/utils/routeList'
+import { RouteListType } from 'Src/utils/routeList'
 import NoAuth from 'Src/pages/ErrorPage/403'
 
 const { Content } = Layout
-
-export type ContentType = typeof routeList
-
 export interface ContentProps {
-  list: ContentType
+  list: RouteListType[]
   className: string
 }
 
@@ -39,23 +36,36 @@ export default function LayoutContent({ list, className }: ContentProps) {
     }
     return <Component />
   }
+
+  const handleRoute = (arrList: RouteListType[]) => {
+    return (
+      <Switch>
+        {arrList.map((route) => {
+          if (route.redirect) {
+            // 此时会记进行重定向
+            return <Redirect exact key={route.path} from={route.path} to={route.redirect} />
+          }
+          // 如果存在子路由 则循环递归子路由
+          if (route.children) {
+            return (
+              <Route key={route.path} path={route.path}>
+                {handleRoute(route.children)}
+              </Route>
+            )
+          }
+          // 如果是打开的内容直接判断是否可以通过
+          return (
+            <Route key={route.path} path={route.path} render={() => checkPermission(route.component, route?.roles)} />
+          )
+        })}
+      </Switch>
+    )
+  }
   return (
     <Content className={className}>
       <TransitionGroup>
         <CSSTransition classNames='fade' key={location.pathname} timeout={300} exit={false}>
-          <Switch>
-            <Redirect exact from='/' to='/dashboard/analysis' />
-            {list.map((route) => {
-              return (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  render={() => checkPermission(route.component, route?.roles)}
-                />
-              )
-            })}
-            <Redirect to='/error/404' />
-          </Switch>
+          {handleRoute(list)}
         </CSSTransition>
       </TransitionGroup>
     </Content>
