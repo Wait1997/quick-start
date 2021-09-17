@@ -39,9 +39,11 @@ export default function MenuSide({
 
   useEffect(() => {
     const { pathname } = location
-    const pathList = pathname.split('/').find(Boolean)
+    // 为了打开的subMenu的路径
+    const pathList = pathname.split('/').filter(Boolean)
+    const parentList = pathList.slice(0, -1).map((item) => `/${item}`)
     setSelectedKeys([pathname])
-    setOpenKeys([`/${pathList}`])
+    setOpenKeys(parentList)
   }, [location])
 
   const hasPermisssion = useCallback(
@@ -115,8 +117,10 @@ export default function MenuSide({
               setOpenKeys(keys as string[])
             }}
             onSelect={(select) => {
-              setSelectedKeys([select.key])
-              history.push(select.key)
+              setSelectedKeys(select.selectedKeys)
+              if (!selectedKeys.includes(select.key)) {
+                history.push(select.key)
+              }
             }}
             mode='inline'>
             {getMenuNodes(data)}
