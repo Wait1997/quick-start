@@ -57,15 +57,15 @@ export default function MenuHeader({
           </div>
           <div className='head-right'>
             <Dropdown
-              trigger={['click']}
+              trigger={['hover']}
               overlay={
                 <Menu>
                   <Menu.Item key='0'>
-                    <a href='https://www.antgroup.com'>antgroup</a>
+                    <a href='https://ant.design/components/overview-cn/'>Ant Design</a>
                   </Menu.Item>
                   <Menu.Divider />
                   <Menu.Item key='1'>
-                    <a href='https://www.aliyun.com'>aliyun</a>
+                    <a href='https://github.com'>GitHub</a>
                   </Menu.Item>
                   <Menu.Divider />
                   <Menu.Item key='3' onClick={onLogout}>

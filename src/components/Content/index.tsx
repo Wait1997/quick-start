@@ -22,16 +22,16 @@ export default function LayoutContent({ list, className }: ContentProps) {
    * @param roles 当前路由组件的权限
    * @returns 路由组件
    */
-  const checkPermission = (Component: any, roles?: string[]) => {
+  const checkPermission = (props: any, Component: any, roles?: string[]) => {
     if (roles && Array.isArray(roles)) {
       if (Array.isArray(role)) {
         if (role.some((item) => roles.includes(item))) {
-          return <Component />
+          return <Component {...props} />
         }
         return <NoAuth />
       }
       if (roles.includes(role)) {
-        return <Component />
+        return <Component {...props} />
       }
     }
     return <Component />
@@ -42,8 +42,11 @@ export default function LayoutContent({ list, className }: ContentProps) {
       <Switch>
         {arrList.map((route) => {
           if (route.redirect) {
-            // 此时会记进行重定向
-            return <Redirect exact key={route.path} from={route.path} to={route.redirect} />
+            if (route.path) {
+              // 此时会记进行重定向
+              return <Redirect exact key={route.path} from={route.path} to={route.redirect} />
+            }
+            return <Redirect key={route.redirect} to={route.redirect} />
           }
           // 如果存在子路由 则循环递归子路由
           if (route.children) {
@@ -55,7 +58,11 @@ export default function LayoutContent({ list, className }: ContentProps) {
           }
           // 如果是打开的内容直接判断是否可以通过
           return (
-            <Route key={route.path} path={route.path} render={() => checkPermission(route.component, route?.roles)} />
+            <Route
+              key={route.path}
+              path={route.path}
+              render={(props) => checkPermission(props, route.component, route?.roles)}
+            />
           )
         })}
       </Switch>

@@ -15,7 +15,6 @@ function Login(props: any) {
   const history = useHistory()
   const [form] = Form.useForm()
   const elUserRef = useRef<Input>(null)
-  const elPassRef = useRef<Input>(null)
   const [checked, setChecked] = useState(false)
   const [loading, setLoading] = useState(false)
 
@@ -36,7 +35,7 @@ function Login(props: any) {
     setLoading(true)
     try {
       const to: string = await login({ username, password })
-      handleUserInfo(to)
+      await handleUserInfo(to)
     } catch (error) {
       setLoading(false)
       message.error(error as string)
@@ -87,7 +86,6 @@ function Login(props: any) {
             { required: true, message: '请输入密码' }
           ]}>
           <Input
-            ref={elPassRef}
             size='large'
             prefix={<LockOutlined className='password-icon' />}
             type='password'

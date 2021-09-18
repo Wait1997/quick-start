@@ -3,7 +3,7 @@ const users = {
   'admin-token': {
     id: 'admin',
     role: ['admin'],
-    name: '傻逼',
+    name: '管理员',
     avatar: 'https://s1.ax1x.com/2020/04/28/J5hUaT.jpg',
     desc: '拥有系统内所有菜单和路由权限'
   },

@@ -20,6 +20,25 @@ export interface MenuProps {
   style?: React.CSSProperties
 }
 
+/**
+ * 为了获取打开过的subMenu数组的key
+ * @param pathname location.pathname
+ * @returns subMenu经过的数组的key
+ */
+const getPreviousPath = (pathname: string): string[] => {
+  let previousPath = ''
+  const parentList = []
+
+  const pathList = pathname.split('/').filter(Boolean)
+  const effectList = pathList.slice(0, -1)
+
+  for (const item of effectList) {
+    previousPath += `/${item}`
+    parentList.push(previousPath)
+  }
+  return parentList
+}
+
 export default function MenuSide({
   data,
   width = 208,
@@ -40,8 +59,7 @@ export default function MenuSide({
   useEffect(() => {
     const { pathname } = location
     // 为了打开的subMenu的路径
-    const pathList = pathname.split('/').filter(Boolean)
-    const parentList = pathList.slice(0, -1).map((item) => `/${item}`)
+    const parentList = getPreviousPath(pathname)
     setSelectedKeys([pathname])
     setOpenKeys(parentList)
   }, [location])
