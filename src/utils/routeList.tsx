@@ -13,9 +13,10 @@ const Analysis = loadable(() => import('Pages/Dashboard/Analysis'), { fallback: 
 const Workplace = loadable(() => import('Pages/Dashboard/Workplace'), { fallback: <Loading size='large' /> })
 
 // 权限
-const Explanation = loadable(() => import('Pages/Permission'), { fallback: <Loading size='large' /> })
-const AdminPage = loadable(() => import('Pages/Permission/Admin'), { fallback: <Loading size='large' /> })
-const UserPage = loadable(() => import('Pages/Permission/User'), { fallback: <Loading size='large' /> })
+const UserPermission = loadable(() => import('Pages/Permission/User'), { fallback: <Loading size='large' /> })
+const RolePermission = loadable(() => import('Pages/Permission/Role'), { fallback: <Loading size='large' /> })
+const AuthPermission = loadable(() => import('Src/pages/Permission/Auth'), { fallback: <Loading size='large' /> })
+const MenuPermission = loadable(() => import('Src/pages/Permission/Menu'), { fallback: <Loading size='large' /> })
 
 // 表单
 const BasicForm = loadable(() => import('Pages/Form/BasicForm'), { fallback: <Loading size='large' /> })
@@ -34,14 +35,24 @@ const TableQuery = loadable(() => import('Pages/Table/Query'), { fallback: <Load
 const TableStandard = loadable(() => import('Src/pages/Table/Standard'), { fallback: <Loading size='large' /> })
 
 // 组件
-const Guide = loadable(() => import('Src/pages/Component/Guide'), { fallback: <Loading size='large' /> })
+const Guide = loadable(() => import('Pages/Component/Guide'), { fallback: <Loading size='large' /> })
+const ExportExcel = loadable(() => import('Pages/Component/Excel/ExportExcel'), { fallback: <Loading size='large' /> })
+const UploadExcel = loadable(() => import('Pages/Component/Excel/UploadExcel'), { fallback: <Loading size='large' /> })
 const RichText = loadable(() => import('Pages/Component/RichText'), { fallback: <Loading size='large' /> })
 const Markdown = loadable(() => import('Pages/Component/Markdown'), { fallback: <Loading size='large' /> })
 const Draggable = loadable(() => import('Pages/Component/Draggable'), { fallback: <Loading size='large' /> })
 
+// 图表
+const KeyBoard = loadable(() => import('Pages/Echarts/KeyBoard'), { fallback: <Loading size='large' /> })
+const LineCharts = loadable(() => import('Pages/Echarts/LineCharts'), { fallback: <Loading size='large' /> })
+const MixCharts = loadable(() => import('Pages/Echarts/MixCharts'), { fallback: <Loading size='large' /> })
+
 // 异常页
 const NoFound = loadable(() => import('Pages/ErrorPage/404'), { fallback: <Loading size='large' /> })
 const NoAuth = loadable(() => import('Pages/ErrorPage/403'), { fallback: <Loading size='large' /> })
+
+// Gallery
+const Gallery = loadable(() => import('Pages/Gallery'), { fallback: <Loading size='large' /> })
 
 export interface RouteListType {
   path?: string
@@ -106,22 +117,27 @@ const routerList: RouteListType[] = [
         children: [
           {
             path: '/permission',
-            redirect: '/permission/explanation'
+            redirect: '/permission/permission-user'
           },
           {
-            path: '/permission/explanation',
-            component: Explanation,
+            path: '/permission/permission-user',
+            component: UserPermission,
             roles: ['admin', 'user']
           },
           {
-            path: '/permission/admin',
-            component: AdminPage,
-            roles: ['admin']
+            path: '/permission/permission-role',
+            component: RolePermission,
+            roles: ['admin', 'user']
           },
           {
-            path: '/permission/user',
-            component: UserPage,
-            roles: ['user']
+            path: '/permission/permission-auth',
+            component: AuthPermission,
+            roles: ['admin', 'user']
+          },
+          {
+            path: '/permission/permission-menu',
+            component: MenuPermission,
+            roles: ['admin', 'user']
           },
           {
             redirect: '/permission/explanation'
@@ -197,34 +213,75 @@ const routerList: RouteListType[] = [
         ]
       },
       {
-        path: '/component',
+        path: '/components',
         children: [
           {
-            path: '/component',
-            redirect: '/component/guide'
+            path: '/components',
+            redirect: '/components/guide'
           },
           {
-            path: '/component/guide',
+            path: '/components/guide',
             component: Guide,
             roles: ['admin', 'user']
           },
           {
-            path: '/component/richtext',
+            path: '/components/excel',
+            children: [
+              {
+                path: '/components/excel',
+                redirect: '/components/excel/export'
+              },
+              {
+                path: '/components/excel/export',
+                component: ExportExcel
+              },
+              {
+                path: '/components/excel/upload',
+                component: UploadExcel
+              },
+              {
+                redirect: '/components/excel/export'
+              }
+            ]
+          },
+          {
+            path: '/components/richtext',
             component: RichText,
             roles: ['admin']
           },
           {
-            path: '/component/markdown',
+            path: '/components/markdown',
             component: Markdown,
             roles: ['admin', 'user']
           },
           {
-            path: '/component/draggable',
+            path: '/components/draggable',
             component: Draggable,
             roles: ['admin', 'user']
           },
           {
-            redirect: '/component/richtext'
+            redirect: '/components/richtext'
+          }
+        ]
+      },
+      {
+        path: '/echarts',
+        children: [
+          {
+            path: '/echarts',
+            redirect: '/echarts/keyboard'
+          },
+          {
+            path: '/echarts/keyboard',
+            component: KeyBoard
+          },
+          {
+            path: '/echarts/line',
+            component: LineCharts
+          },
+          {
+            path: '/echarts/mix-chart',
+            component: MixCharts
           }
         ]
       },
@@ -247,6 +304,10 @@ const routerList: RouteListType[] = [
             redirect: '/error/404'
           }
         ]
+      },
+      {
+        path: '/gallery',
+        component: Gallery
       },
       {
         redirect: '/error/404'

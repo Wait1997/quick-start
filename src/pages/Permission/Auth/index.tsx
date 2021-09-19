@@ -1,5 +1,5 @@
 import React from 'react'
 
 export default function Admin() {
-  return <div>admin</div>
+  return <div>权限管理</div>
 }

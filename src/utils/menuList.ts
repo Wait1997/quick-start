@@ -10,7 +10,7 @@ export const menuList: MenuType[] = [
   {
     title: '首页',
     path: '/dashboard',
-    icon: 'home',
+    icon: 'dashboard',
     children: [
       {
         path: '/dashboard/analysis',
@@ -25,31 +25,36 @@ export const menuList: MenuType[] = [
     ]
   },
   {
-    title: '权限测试',
+    title: '权限管理',
     path: '/permission',
     icon: 'lock',
     children: [
       {
-        title: '权限说明',
-        path: '/permission/explanation',
-        roles: ['admin']
+        title: '用户管理',
+        path: '/permission/permission-user',
+        roles: ['admin', 'user']
       },
       {
-        title: '管理员页面',
-        path: '/permission/admin',
-        roles: ['admin']
+        title: '角色管理',
+        path: '/permission/permission-role',
+        roles: ['admin', 'user']
       },
       {
-        title: '用户页面',
-        path: '/permission/user',
-        roles: ['user']
+        title: '权限管理',
+        path: '/permission/permission-auth',
+        roles: ['admin', 'user']
+      },
+      {
+        title: '菜单管理',
+        path: '/permission/permission-menu',
+        roles: ['admin', 'user']
       }
     ]
   },
   {
     title: '表单页',
     path: '/form',
-    icon: 'edit',
+    icon: 'form',
     children: [
       {
         title: '基础表单',
@@ -107,19 +112,36 @@ export const menuList: MenuType[] = [
   {
     title: '组件',
     path: '/components',
-    icon: 'appstore',
+    icon: 'component',
     roles: ['admin', 'user'],
     children: [
       {
         title: '引导页',
-        path: '/guide',
+        path: '/components/guide',
         icon: 'key',
         roles: ['admin', 'user']
       },
       {
+        title: 'Excel',
+        path: '/components/excel',
+        roles: ['admin', 'user'],
+        children: [
+          {
+            title: '导出Excel',
+            path: '/components/excel/export',
+            roles: ['admin', 'user']
+          },
+          {
+            title: '上传Excel',
+            path: '/components/excel/upload',
+            roles: ['admin', 'user']
+          }
+        ]
+      },
+      {
         title: '富文本',
         path: '/components/richtext',
-        roles: ['admin']
+        roles: ['admin', 'user']
       },
       {
         title: 'Markdown',
@@ -135,72 +157,24 @@ export const menuList: MenuType[] = [
   },
   {
     title: '图表',
-    path: '/charts',
-    icon: 'area-chart',
+    path: '/echarts',
+    icon: 'charts',
     roles: ['admin', 'user'],
     children: [
       {
         title: '键盘图表',
-        path: '/charts/keyboard',
+        path: '/echarts/keyboard',
         roles: ['admin']
       },
       {
         title: '折线图',
-        path: '/charts/line',
+        path: '/echarts/line',
         roles: ['admin']
       },
       {
         title: '混合图表',
-        path: '/charts/mix-chart',
+        path: '/echarts/mix-chart',
         roles: ['admin', 'user']
-      }
-    ]
-  },
-  {
-    title: 'Excel',
-    path: '/excel',
-    icon: 'file-excel',
-    roles: ['admin', 'editor'],
-    children: [
-      {
-        title: '导出Excel',
-        path: '/excel/export',
-        roles: ['admin', 'editor']
-      },
-      {
-        title: '上传Excel',
-        path: '/excel/upload',
-        roles: ['admin', 'editor']
-      }
-    ]
-  },
-  {
-    title: '路由嵌套',
-    path: '/nested',
-    icon: 'cluster',
-    roles: ['admin', 'user'],
-    children: [
-      {
-        title: '菜单1',
-        path: '/nested/menu1',
-        children: [
-          {
-            title: '菜单1-1',
-            path: '/nested/menu1/menu1-1',
-            roles: ['user']
-          },
-          {
-            title: '菜单1-2',
-            path: '/nested/menu1/menu1-2',
-            children: [
-              {
-                title: '菜单1-2-1',
-                path: '/nested/menu1/menu1-2/menu1-2-1',
-                roles: ['admin', 'user']
-              }
-            ]
-          }
-        ]
       }
     ]
   },
@@ -224,7 +198,7 @@ export const menuList: MenuType[] = [
   {
     title: 'Gallery',
     path: '/gallery',
-    icon: 'file-zip',
+    icon: 'heart',
     roles: ['admin', 'user']
   }
 ]

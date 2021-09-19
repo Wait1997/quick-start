@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { logout } from 'Src/store/actions/auth'
 import { menuList } from 'Utils/menuList'
 import { Layout } from 'antd'
+import ErrorBoundary from 'Src/components/ErrorBoundary'
 import MenuSide from 'Components/Menu'
 import Breadcrumb from 'Components/Breadcrumb'
 import Header from 'Components/Header'
@@ -31,7 +32,9 @@ const BasicLayout: React.FC<any> = (props) => {
           }}>
           <Breadcrumb menuList={menuList} />
         </Header>
-        <Content className='content' list={children} />
+        <ErrorBoundary>
+          <Content className='content' list={children} />
+        </ErrorBoundary>
       </Layout>
     </Layout>
   )

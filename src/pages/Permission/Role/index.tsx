@@ -4,40 +4,35 @@ import { Divider, Tooltip } from 'antd'
 import { EyeOutlined, ToolOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
 import PermissionTable from '../component/PermissionTable'
 
-export type DataListType = {
+export type RoleListType = {
   key: number
-  user: string
-  phone: string
-  email: string
+  roleName: string
+  sort: number
   desc: string
   status: 'enable' | 'disable'
 }
 
-export default function User() {
-  const [dataList, setDataList] = useState<DataListType[]>([])
+export default function RolePermission() {
+  const [dataList, setDataList] = useState<RoleListType[]>([])
 
   const columns = useMemo(() => {
     return [
       {
         title: '序号',
         key: 'sign',
-        render: (text: DataListType, recond: DataListType) => recond.key
+        render: (text: RoleListType, recond: RoleListType) => recond.key
       },
       {
-        title: '用户名',
-        dataIndex: 'user'
-      },
-      {
-        title: '联系方式',
-        dataIndex: 'phone'
-      },
-      {
-        title: '邮箱',
-        dataIndex: 'email'
+        title: '角色名',
+        dataIndex: 'roleName'
       },
       {
         title: '描述',
         dataIndex: 'desc'
+      },
+      {
+        title: '排序',
+        dataIndex: 'sort'
       },
       {
         title: '状态',
@@ -53,7 +48,7 @@ export default function User() {
       {
         title: '操作',
         key: 'action',
-        render: (text: DataListType, recond: DataListType) => {
+        render: (text: RoleListType, recond: RoleListType) => {
           return (
             <>
               <Tooltip title='查看'>
@@ -82,40 +77,21 @@ export default function User() {
     setDataList([
       {
         key: 1,
-        user: 'admin',
-        phone: '15000558443',
-        email: '1433193222@qq.com',
-        desc: '管理员',
+        roleName: '管理员',
+        desc: '管理员拥有全部权限',
+        sort: 1,
         status: 'enable'
       },
       {
         key: 2,
-        user: 'user',
-        phone: '13978230124',
-        email: '1433193222@qq.com',
-        desc: '普通用户',
-        status: 'disable'
-      },
-      {
-        key: 3,
-        user: 'user',
-        phone: '18815610633',
-        email: '171371923@qq.com',
-        desc: '普通用户',
-        status: 'enable'
-      },
-      {
-        key: 4,
-        user: 'user',
-        phone: '15000000000',
-        email: '1433193222@qq.com',
-        desc: '普通用户',
+        roleName: '普通用户',
+        desc: '普通用户拥有部分权限',
+        sort: 2,
         status: 'disable'
       }
     ])
   }, [])
-
   return (
-    <PermissionTable<DataListType> title='添加用户' placeholder='请输入用户名' columns={columns} dataList={dataList} />
+    <PermissionTable<RoleListType> title='添加角色' placeholder='请输入角色名' columns={columns} dataList={dataList} />
   )
 }

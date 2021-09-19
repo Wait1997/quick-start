@@ -1,4 +1,4 @@
-const port = 9001
+const port = 8000
 const { hostname, protocol } = window.location
 
 export const isLocal = hostname.match(/^127|localhost|^192/)

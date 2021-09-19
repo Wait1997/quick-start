@@ -1,8 +1,10 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React, { useCallback, useState, useEffect, useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import { useHistory, useLocation } from 'react-router-dom'
+import { NavLink, useHistory, useLocation } from 'react-router-dom'
 import { Layout, Menu as AntdMenu } from 'antd'
 import { MenuType } from 'Utils/menuList'
+import getMenuIcon, { iconsMap } from 'Src/utils/icon'
+import Logo from 'Assets/images/logo.svg'
 import cn from 'classnames'
 import './index.less'
 
@@ -10,6 +12,9 @@ const { Sider } = Layout
 const { SubMenu, Item } = AntdMenu
 
 export interface MenuProps {
+  logo?: string
+  title?: string
+  logoWrap?: React.ReactNode
   data: MenuType[]
   width?: number
   collapsedWidth?: number
@@ -40,6 +45,9 @@ const getPreviousPath = (pathname: string): string[] => {
 }
 
 export default function MenuSide({
+  logo = Logo,
+  title = 'Antd Admin',
+  logoWrap,
   data,
   width = 208,
   collapsedWidth = 48,
@@ -77,16 +85,30 @@ export default function MenuSide({
     [role]
   )
 
+  const LogoWrap = useMemo(() => {
+    if (!logoWrap) {
+      return (
+        <NavLink to='/dashboard' activeClassName='logo-link' className='logo-link'>
+          <img src={logo} height={32} alt='' />
+          {!collapsed && <span className='logo-title'>{title}</span>}
+        </NavLink>
+      )
+    }
+    return logoWrap
+  }, [title, logo, logoWrap, collapsed])
+
   const getMenuNodes = useCallback(
     (menu: MenuType[]) => {
       const treeDom = menu.map((item) => {
         if (hasPermisssion(item)) {
           return item.children ? (
-            <SubMenu key={item.path} title={item.title}>
+            <SubMenu key={item.path} title={item.title} icon={getMenuIcon(iconsMap, item?.icon)}>
               {getMenuNodes(item.children)}
             </SubMenu>
           ) : (
-            <Item key={item.path}>{item.title}</Item>
+            <Item key={item.path} icon={getMenuIcon(iconsMap, item?.icon)}>
+              {item.title}
+            </Item>
           )
         }
         return null
@@ -127,6 +149,7 @@ export default function MenuSide({
         trigger={null}
         collapsible>
         <div className='menu-wrap'>
+          <div className={cn('app-logo', { 'logo-collapsed': collapsed })}>{LogoWrap}</div>
           <AntdMenu
             theme={theme}
             selectedKeys={selectedKeys}
