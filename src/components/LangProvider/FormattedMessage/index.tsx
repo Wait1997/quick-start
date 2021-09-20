@@ -5,13 +5,15 @@ import zhCn from 'Src/locales/zh-cn'
 import { LangContext } from '../index'
 
 export const useFormatMessage = (id: LangKeys, args?: Record<string, React.ReactNode>) => {
-  const lang = useContext(LangContext)
-  const dictionary = lang === 'zh-CN' ? zhCn : enUs
-  return dictionary[id].split(/{\s*(\w+)\s*}/).map<React.ReactNode>((item, index) => {
-    if (index % 2 === 0) {
-      return <>{item}</>
+  const { defaultLang } = useContext(LangContext)
+  const dictionary = defaultLang === 'zh-CN' ? zhCn : enUs
+  const effectKeys = dictionary[id].split(/{\s*(\w+)\s*}/).filter(Boolean)
+
+  return effectKeys.map<React.ReactNode>((item) => {
+    if (args && item in args) {
+      return args[item]
     }
-    return <>{item}</>
+    return item
   })
 }
 

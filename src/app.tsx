@@ -5,12 +5,10 @@ import LangProvider from 'Components/LangProvider'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
 import store from './store'
-import { getLang } from './locales'
 
 export default function App() {
-  const lang = getLang()
   return (
-    <LangProvider lang={lang}>
+    <LangProvider>
       <Provider store={store}>
         <ConfigProvider locale={zhCN}>
           <Router />

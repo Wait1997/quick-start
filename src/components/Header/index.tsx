@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { UserInfo } from 'Src/store/reducers/user'
 import { Language, setLang } from 'Src/locales'
 import { Layout, Menu, Dropdown } from 'antd'
 import { MenuUnfoldOutlined, MenuFoldOutlined, SmileOutlined, GlobalOutlined } from '@ant-design/icons'
 import cn from 'classnames'
 import './index.less'
+import { LangContext } from '../LangProvider'
 
 const { Header } = Layout
 
@@ -26,6 +27,8 @@ export default function MenuHeader({
   children,
   fixedHeader = true
 }: React.PropsWithChildren<HeaderType>) {
+  const { checkChange } = useContext(LangContext)
+
   return (
     <>
       {fixedHeader && <Header style={{ height: 48, backgroundColor: 'transparent', lineHeight: 48 }} />}
@@ -63,6 +66,7 @@ export default function MenuHeader({
               overlay={
                 <Menu
                   onClick={(selected) => {
+                    checkChange(selected.key as Language)
                     setLang(selected.key as Language)
                   }}>
                   <Menu.Item key='zh-CN'>中文（Chinese）</Menu.Item>

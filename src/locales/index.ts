@@ -24,10 +24,10 @@ const saveLang = (lang: Language) => {
   return lang
 }
 
-const updateList = new Set<() => void>()
+// const updateList = new Set<() => void>()
 
 export const getLang = () => currentLang
 export const setLang = (lang: Language) => {
   currentLang = saveLang(lang)
-  for (const fn of updateList) fn()
+  // for (const fn of updateList) fn()
 }

@@ -1,24 +1,25 @@
-import React, { createContext, useEffect, useState } from 'react'
-import { Language } from 'Src/locales'
+import React, { createContext, useState } from 'react'
+import { getLang, Language } from 'Src/locales'
 
-export const LangContext = createContext('ch-ZN')
+export const LangContext = createContext<{ defaultLang: Language; checkChange: (lang: Language) => void }>({
+  defaultLang: 'zh-CN',
+  checkChange: () => null
+})
 
 export interface LangProviderProps {
-  lang?: Language
   children?: React.ReactNode
 }
 
-const LangProvider: React.FC<LangProviderProps> = ({ lang, children }) => {
-  const [defaultLang, setDefaultLang] = useState('zh-CN')
+const lang = getLang()
 
-  useEffect(() => {
-    if (lang) {
-      console.log(lang)
-      setDefaultLang(lang)
-    }
-  }, [lang])
+const LangProvider: React.FC<LangProviderProps> = ({ children }) => {
+  const [defaultLang, setDefaultLang] = useState<Language>(lang)
 
-  return <LangContext.Provider value={defaultLang}>{children}</LangContext.Provider>
+  const checkChange = (language: Language) => {
+    setDefaultLang(language)
+  }
+
+  return <LangContext.Provider value={{ defaultLang, checkChange }}>{children}</LangContext.Provider>
 }
 
 export default LangProvider

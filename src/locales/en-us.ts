@@ -1,3 +1,4 @@
 export default {
-  dashboard: 'Dashboard'
+  dashboard: 'Dashboard',
+  workSpace: '{name} workSpace'
 }
