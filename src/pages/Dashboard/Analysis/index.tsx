@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Row, Col } from 'antd'
+import useTitle from 'Src/hooks/useTitle'
 import IntroduceRow from './IntroduceRow'
 import PopularityCard from './PopularityCard'
 import TopSearch from './TopSearch'
@@ -7,6 +8,7 @@ import SalesRates from './SalesRates'
 import OfflineData from './OfflineData'
 
 export default function Analysis() {
+  useTitle()
   const [loading, setLoading] = useState(false)
   useEffect(() => {
     setLoading(false)

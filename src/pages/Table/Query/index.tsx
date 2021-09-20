@@ -2,10 +2,12 @@ import React, { useEffect, useState, useMemo } from 'react'
 import { apiPostTableInfo, TableQeqProps, apiPostModifyTable } from 'Api/table'
 import moment from 'moment'
 import { message } from 'antd'
+import useTitle from 'Src/hooks/useTitle'
 import Protable, { DataListType, Status } from '../component/ProTable'
 import ProForm from '../component/ProForm'
 
 export default function QueryTable() {
+  useTitle()
   const [total, setTotal] = useState(0)
   const [dataList, setDataList] = useState<DataListType[]>([])
   const [queryQeq, setQueryReq] = useState<TableQeqProps>({

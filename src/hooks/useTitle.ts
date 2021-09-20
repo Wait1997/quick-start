@@ -16,5 +16,4 @@ export default function useTitle() {
   const location = useLocation()
   const { pathname } = location
   reduceList(pathname, menuList)
-  document.title = 'Antd Admin'
 }

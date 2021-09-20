@@ -2,6 +2,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { Divider, Tooltip } from 'antd'
 import { EyeOutlined, ToolOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons'
+import useTitle from 'Src/hooks/useTitle'
 import PermissionTable from '../component/PermissionTable'
 
 export type DataListType = {
@@ -14,6 +15,7 @@ export type DataListType = {
 }
 
 export default function User() {
+  useTitle()
   const [dataList, setDataList] = useState<DataListType[]>([])
 
   const columns = useMemo(() => {

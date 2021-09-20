@@ -1,7 +1,8 @@
 import React from 'react'
 import { UserInfo } from 'Src/store/reducers/user'
+import { Language, setLang } from 'Src/locales'
 import { Layout, Menu, Dropdown } from 'antd'
-import { MenuUnfoldOutlined, MenuFoldOutlined, SmileOutlined } from '@ant-design/icons'
+import { MenuUnfoldOutlined, MenuFoldOutlined, SmileOutlined, GlobalOutlined } from '@ant-design/icons'
 import cn from 'classnames'
 import './index.less'
 
@@ -58,6 +59,23 @@ export default function MenuHeader({
           <div className='head-right'>
             <Dropdown
               trigger={['hover']}
+              placement='bottomCenter'
+              overlay={
+                <Menu
+                  onClick={(selected) => {
+                    setLang(selected.key as Language)
+                  }}>
+                  <Menu.Item key='zh-CN'>中文（Chinese）</Menu.Item>
+                  <Menu.Item key='en-US'>英文（English）</Menu.Item>
+                </Menu>
+              }>
+              <div className='global-icon'>
+                <GlobalOutlined style={{ fontSize: 20, color: 'rgba(0, 0, 0, 0.72)' }} />
+              </div>
+            </Dropdown>
+            <Dropdown
+              trigger={['hover']}
+              placement='bottomCenter'
               overlay={
                 <Menu>
                   <Menu.Item key='0'>
@@ -74,7 +92,7 @@ export default function MenuHeader({
                 </Menu>
               }>
               <div className='userhead'>
-                <SmileOutlined style={{ fontSize: 20 }} />
+                <SmileOutlined style={{ fontSize: 20, color: 'rgba(0, 0, 0, 0.72)' }} />
                 <span style={{ marginLeft: 6 }}>{userInfo && userInfo.name}</span>
               </div>
             </Dropdown>
