@@ -11,7 +11,13 @@ export default function Analysis() {
   useTitle()
   const [loading, setLoading] = useState(false)
   useEffect(() => {
-    setLoading(false)
+    setLoading(true)
+    const timer = setTimeout(() => {
+      setLoading(false)
+    }, 1000)
+    return () => {
+      clearTimeout(timer)
+    }
   }, [])
   return (
     <>

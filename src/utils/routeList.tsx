@@ -306,7 +306,7 @@ const routerList: RouteListType[] = [
         ]
       },
       {
-        path: '/gallery',
+        path: '/recond',
         component: Gallery
       },
       {

@@ -19,7 +19,7 @@ const mock = require('../server')
 
 module.exports = merge(common, {
   mode: 'development',
-  devtool: 'cheap-module-source-map',
+  devtool: 'source-map',
   target: 'web',
   cache: { type: 'memory' },
   output: {
@@ -32,7 +32,7 @@ module.exports = merge(common, {
     port: SERVER_PORT, // 指定端口，默认是8080
     stats: 'errors-only', // 终端仅打印 error
     clientLogLevel: 'none', // 日志等级
-    overlay: true,
+    overlay: false,
     open: false, // 打开默认浏览器
     hot: true, // 热更新
     noInfo: false,

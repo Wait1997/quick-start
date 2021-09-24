@@ -1,8 +1,10 @@
+export type PowersType = { admin: string[]; user: string[] }
 export interface MenuType {
   title: string
   path: string
   icon?: string
   roles?: string[]
+  powers?: PowersType
   children?: MenuType[]
 }
 
@@ -32,12 +34,20 @@ export const menuList: MenuType[] = [
       {
         title: '用户管理',
         path: '/permission/permission-user',
-        roles: ['admin', 'user']
+        roles: ['admin', 'user'],
+        powers: {
+          admin: ['add', 'view', 'modify', 'deal', 'delete'],
+          user: ['view']
+        }
       },
       {
         title: '角色管理',
         path: '/permission/permission-role',
-        roles: ['admin', 'user']
+        roles: ['admin', 'user'],
+        powers: {
+          admin: ['add', 'view', 'modify', 'deal', 'delete'],
+          user: ['view']
+        }
       },
       {
         title: '权限管理',
@@ -105,7 +115,7 @@ export const menuList: MenuType[] = [
       {
         path: '/table/standard',
         title: '标准表格',
-        roles: ['admin', 'user']
+        roles: ['admin']
       }
     ]
   },
@@ -196,9 +206,9 @@ export const menuList: MenuType[] = [
     ]
   },
   {
-    title: 'Gallery',
-    path: '/gallery',
+    title: '记录',
+    path: '/recond',
     icon: 'heart',
-    roles: ['admin', 'user']
+    roles: ['admin']
   }
 ]
