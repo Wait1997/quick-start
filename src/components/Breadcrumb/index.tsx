@@ -10,7 +10,7 @@ export interface BreadType {
   menuList: MenuType[]
 }
 
-export type BreadListType = { title: string; path: string }
+export type BreadListType = { title: React.ReactNode; path: string }
 
 function getBreadPath(pathname: string, menuList: MenuType[]): BreadListType[] {
   return menuList.reduce<BreadListType[]>((all: BreadListType[], item: MenuType) => {

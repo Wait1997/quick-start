@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo, useCallback, useRef } from 'react'
 import { Table, Modal, Checkbox } from 'antd'
+import { cloneDeep } from 'lodash'
 import { ColumnsType } from 'antd/lib/table'
 import { CheckboxValueType } from 'antd/lib/checkbox/Group'
 import TableRole from 'Pages/Permission/Role/TableRole'
@@ -62,6 +63,7 @@ export default function PermissionTable<T>({
   const [checkedValue, setCheckedValue] = useState<CheckboxValueType[]>([])
   const [tableCheckedKeys, setTableCheckedKeys] = useState<string[]>([])
   const [treeTableData, setTreeTableData] = useState<TableRoleType[]>(tableRole)
+  const submitEffectList = useRef<TableRoleType[]>(treeTableData)
 
   useEffect(() => {
     if (defaultCheckedValue) {
@@ -84,6 +86,19 @@ export default function PermissionTable<T>({
       setTableCheckedKeys(keys)
     }
   }, [treeTableData])
+
+  const getEffectTableData = useCallback((treeList: TableRoleType[], keys: string[]) => {
+    const effectList = treeList.filter((item) => {
+      if (item.children) {
+        item.children = [...getEffectTableData(item.children, keys)]
+      }
+      if (keys.includes(item.key as string)) {
+        return true
+      }
+      return false
+    })
+    return effectList
+  }, [])
 
   const permissionEl = useMemo(() => {
     if (type === 'user') {
@@ -113,13 +128,17 @@ export default function PermissionTable<T>({
         tableCheckedKeys={tableCheckedKeys}
         selectedTable={(values) => {
           setTreeTableData(values)
+          submitEffectList.current = values
         }}
         setTableCheckedKeys={(keys) => {
           setTableCheckedKeys(keys)
+          const effectList = getEffectTableData(cloneDeep(treeTableData), keys)
+          // 为了获取最终选择后的tree列表
+          submitEffectList.current = effectList
         }}
       />
     )
-  }, [currentRole, checkedValue, type, treeTableData, tableCheckedKeys])
+  }, [currentRole, checkedValue, type, treeTableData, tableCheckedKeys, getEffectTableData])
 
   return (
     <>
@@ -138,7 +157,7 @@ export default function PermissionTable<T>({
         visible={roleVisible}
         title={roleTitle}
         onOk={() => {
-          onRoleSubmit(type === 'role' ? treeTableData : checkedValue)
+          onRoleSubmit(type === 'role' ? submitEffectList.current : checkedValue)
         }}
         onCancel={roleCancel}
         mask={false}

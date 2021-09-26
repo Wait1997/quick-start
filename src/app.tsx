@@ -4,16 +4,17 @@ import { Provider } from 'react-redux'
 import LangProvider from 'Components/LangProvider'
 import { ConfigProvider } from 'antd'
 import zhCN from 'antd/es/locale/zh_CN'
+// import enUS from 'antd/es/locale/en_US'
 import store from './store'
 
 export default function App() {
   return (
     <LangProvider>
-      <Provider store={store}>
-        <ConfigProvider locale={zhCN}>
+      <ConfigProvider locale={zhCN}>
+        <Provider store={store}>
           <Router />
-        </ConfigProvider>
-      </Provider>
+        </Provider>
+      </ConfigProvider>
     </LangProvider>
   )
 }

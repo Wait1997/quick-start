@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
 import { UserInfo } from 'Src/store/reducers/user'
-import { Language, setLang } from 'Src/locales'
+import { Language } from 'Src/locales'
 import { Layout, Menu, Dropdown } from 'antd'
 import { MenuUnfoldOutlined, MenuFoldOutlined, SmileOutlined, GlobalOutlined } from '@ant-design/icons'
 import cn from 'classnames'
 import './index.less'
-import { LangContext } from '../LangProvider'
+import { LangContext, LangContextType } from '../LangProvider'
 
 const { Header } = Layout
 
@@ -27,7 +27,7 @@ export default function MenuHeader({
   children,
   fixedHeader = true
 }: React.PropsWithChildren<HeaderType>) {
-  const { checkChange } = useContext(LangContext)
+  const { checkChange } = useContext<LangContextType>(LangContext)
 
   return (
     <>
@@ -67,7 +67,6 @@ export default function MenuHeader({
                 <Menu
                   onClick={(selected) => {
                     checkChange(selected.key as Language)
-                    setLang(selected.key as Language)
                   }}>
                   <Menu.Item key='zh-CN'>中文（Chinese）</Menu.Item>
                   <Menu.Item key='en-US'>英文（English）</Menu.Item>

@@ -1,6 +1,6 @@
 export type PowersType = { admin: string[]; user: string[] }
 export interface MenuType {
-  title: string
+  title: React.ReactNode
   path: string
   icon?: string
   roles?: string[]
@@ -46,7 +46,7 @@ export const menuList: MenuType[] = [
         roles: ['admin', 'user'],
         powers: {
           admin: ['add', 'view', 'modify', 'deal', 'delete'],
-          user: ['view']
+          user: ['add', 'view']
         }
       },
       {
@@ -151,7 +151,7 @@ export const menuList: MenuType[] = [
       {
         title: '富文本',
         path: '/components/richtext',
-        roles: ['admin', 'user']
+        roles: ['admin']
       },
       {
         title: 'Markdown',

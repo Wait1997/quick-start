@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { menuList, MenuType, PowersType } from 'Src/utils/menuList'
 
@@ -10,7 +10,7 @@ export type Powers = {
 
 export type TableRoleType = {
   key: number | string
-  title: string
+  title: React.ReactNode
   currentPowers?: Powers
   children?: TableRoleType[]
 }
