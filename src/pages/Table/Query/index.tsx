@@ -3,7 +3,7 @@ import { apiPostTableInfo, TableQeqProps, apiPostModifyTable } from 'Api/table'
 import moment from 'moment'
 import { message } from 'antd'
 import useTitle from 'Src/hooks/useTitle'
-import Protable, { DataListType, Status } from '../component/ProTable'
+import ProTable, { DataListType, Status } from '../component/ProTable'
 import ProForm from '../component/ProForm'
 
 export default function QueryTable() {
@@ -85,7 +85,7 @@ export default function QueryTable() {
   return (
     <>
       <ProForm statusList={statusList} count={2} handleQuery={handleQuery} isExpand />
-      <Protable
+      <ProTable
         statusList={statusList}
         datalist={dataList}
         total={total}

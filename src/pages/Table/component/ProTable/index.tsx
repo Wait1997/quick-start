@@ -165,6 +165,7 @@ export default function ProTable({
         title: '描述',
         key: 'desc',
         dataIndex: 'desc',
+        width: 240,
         filters: [
           { text: '描述0', value: '0' },
           { text: '描述1', value: '1' }
@@ -173,7 +174,7 @@ export default function ProTable({
         render: (text: React.ReactNode, recond: DataListType) => {
           const childNode = recond?.editDesc ? (
             <Form form={form}>
-              <Form.Item name='desc'>
+              <Form.Item name='desc' style={{ width: '100%', marginBottom: 0 }}>
                 <Input
                   ref={inputEl}
                   onBlur={() => {
@@ -187,7 +188,9 @@ export default function ProTable({
               </Form.Item>
             </Form>
           ) : (
-            <span onClick={() => toggleEdit(recond)}>{text}</span>
+            <div className='table-desc' onClick={() => toggleEdit(recond)}>
+              {text}
+            </div>
           )
           return childNode
         }
@@ -339,16 +342,26 @@ export default function ProTable({
                 <Tooltip title='固定在列首'>
                   <VerticalAlignTopOutlined
                     style={{ width: 18 }}
-                    onClick={() => {
-                      console.log(dataNode.key)
+                    onClick={(e: React.MouseEvent) => {
+                      const column = columns.find((item) => item.key === dataNode.key)
+                      const newColumn = { ...column, fixed: 'left' }
+                      const newColumns = columns.filter((item) => item.key !== dataNode.key)
+                      newColumns.unshift(newColumn as any)
+                      setTableColumns(newColumns as any)
+                      e.stopPropagation()
                     }}
                   />
                 </Tooltip>
                 <Tooltip title='固定在列尾'>
                   <VerticalAlignBottomOutlined
                     style={{ width: 18 }}
-                    onClick={() => {
-                      console.log(dataNode.key)
+                    onClick={(e: React.MouseEvent) => {
+                      const column = columns.find((item) => item.key === dataNode.key)
+                      const newColumn = { ...column, fixed: 'right' }
+                      const newColumns = columns.filter((item) => item.key !== dataNode.key)
+                      newColumns.push(newColumn as any)
+                      setTableColumns(newColumns as any)
+                      e.stopPropagation()
                     }}
                   />
                 </Tooltip>
@@ -358,12 +371,19 @@ export default function ProTable({
         }}
       />
     )
-  }, [treeData, selectedKeys, selectedTreeNode])
+  }, [treeData, selectedKeys, columns, selectedTreeNode])
+
+  const [settingContentEl, setSettingContentEl] = useState(settingContent)
 
   useEffect(() => {
     const keys = datalist.map((item) => item.key)
     setSelectedRowKeys(keys.filter((key) => selectAllRowKeys.includes(key)))
   }, [datalist, selectAllRowKeys])
+
+  // 这里为了解决 columns 动态增减时造成后 直接编辑desc拿不到 datalist
+  useEffect(() => {
+    setTableColumns(columns)
+  }, [columns])
 
   useEffect(() => {
     for (const item of datalist) {
@@ -372,6 +392,11 @@ export default function ProTable({
       }
     }
   }, [datalist])
+
+  // 改变样式的排列
+  useEffect(() => {
+    setSettingContentEl(settingContent)
+  }, [settingContent])
 
   return (
     <div className='pro-table'>
@@ -403,7 +428,7 @@ export default function ProTable({
               <ColumnHeightOutlined style={{ cursor: 'pointer' }} />
             </Tooltip>
           </Dropdown>
-          <Setting title={settingTitle} content={settingContent}>
+          <Setting title={settingTitle} content={settingContentEl}>
             <SettingOutlined style={{ cursor: 'pointer' }} />
           </Setting>
         </Space>
@@ -412,6 +437,7 @@ export default function ProTable({
         size={size}
         rowSelection={{
           type: 'checkbox',
+          columnWidth: 48,
           selectedRowKeys,
           onChange: (keys) => {
             selectAllRowKeys.push(...keys.filter((key) => !selectAllRowKeys.includes(key)))
@@ -436,6 +462,7 @@ export default function ProTable({
           console.log(filters)
           console.log(sorter)
         }}
+        scroll={{ x: 1200 }}
       />
       <Drawer
         title={title}

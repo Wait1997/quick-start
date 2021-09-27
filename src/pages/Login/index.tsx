@@ -11,7 +11,7 @@ import './index.less'
 export type FormType = LoginReqType & { remember: boolean }
 
 function Login(props: any) {
-  const { login, userInfo } = props
+  const { token, login, userInfo } = props
   const history = useHistory()
   const [form] = Form.useForm()
   const elUserRef = useRef<Input>(null)
@@ -23,7 +23,6 @@ function Login(props: any) {
       await userInfo(to)
       message.success('登录成功')
       setLoading(false)
-      history.replace('/dashboard')
     } catch (error) {
       setLoading(false)
       message.error(error as string)
@@ -47,6 +46,16 @@ function Login(props: any) {
       elUserRef.current.focus()
     }
   }, [])
+
+  useEffect(() => {
+    let mounted = true
+    if (token && mounted) {
+      history.replace('/dashboard')
+    }
+    return () => {
+      mounted = false
+    }
+  }, [token, history])
 
   return (
     <div className='login-form'>

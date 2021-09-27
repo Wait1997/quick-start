@@ -75,7 +75,7 @@ export default function StandardTable() {
         render: (text: React.ReactNode, recond: DataListType) => {
           const childNode = recond?.editDesc ? (
             <Form form={form}>
-              <Form.Item name='desc'>
+              <Form.Item name='desc' style={{ marginBottom: 0 }}>
                 <Input
                   ref={inputEl}
                   onBlur={() => {
@@ -184,7 +184,7 @@ export default function StandardTable() {
   }, [dataList])
 
   return (
-    <>
+    <div className='standard-table-wrap'>
       <div className='standard-head'>
         <span className='standard-title'>可编辑的单元格</span>
         <Button type='primary'>添加</Button>
@@ -205,6 +205,6 @@ export default function StandardTable() {
           }
         }}
       />
-    </>
+    </div>
   )
 }

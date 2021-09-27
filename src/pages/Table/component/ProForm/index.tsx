@@ -20,22 +20,22 @@ export default function ProForm({
   const formElement = useMemo(() => {
     return [
       <Col xl={6} lg={8} key='name'>
-        <Form.Item label='规则名称' name='name'>
+        <Form.Item labelCol={{ span: 10 }} label='规则名称' name='name'>
           <Input placeholder='请输入' />
         </Form.Item>
       </Col>,
       <Col xl={6} lg={8} key='desc'>
-        <Form.Item label='描述' name='desc'>
+        <Form.Item labelCol={{ span: 6 }} label='描述' name='desc'>
           <Input placeholder='请输入' />
         </Form.Item>
       </Col>,
       <Col xl={6} lg={8} key='serveCount'>
-        <Form.Item label='服务调用次数' name='serveCount'>
+        <Form.Item labelCol={{ span: 10 }} label='服务调用次数' name='serveCount'>
           <Input placeholder='请输入' />
         </Form.Item>
       </Col>,
       <Col xl={6} lg={8} key='status'>
-        <Form.Item label='状态' name='status'>
+        <Form.Item labelCol={{ span: 6 }} label='状态' name='status'>
           <Select placeholder='请选择'>
             {statusList.map((item) => (
               <Option key={item.value} value={item.value}>
@@ -46,7 +46,7 @@ export default function ProForm({
         </Form.Item>
       </Col>,
       <Col xl={6} lg={8} key='serveTime'>
-        <Form.Item label='上次调用时间' name='serveTime'>
+        <Form.Item labelCol={{ span: 10 }} label='上次调用时间' name='serveTime'>
           <DatePicker style={{ width: '100%' }} placeholder='请选择' />
         </Form.Item>
       </Col>
@@ -54,9 +54,11 @@ export default function ProForm({
   }, [statusList])
 
   const [form] = Form.useForm()
+  // 是否展开(默认展开)
   const [expand, setExpand] = useState(() => isExpand)
   const [formList, setFormList] = useState(formElement)
 
+  // 决定展示的表单数量
   useEffect(() => {
     if (expand) {
       setFormList([...formElement])
@@ -66,6 +68,7 @@ export default function ProForm({
   }, [expand, count, formElement])
 
   const queryForm = (values: any) => {
+    // moment格式化时间
     const serveTime = values.serveTime && values.serveTime.format('YYYY-MM-DD')
     handleQuery({
       ...values,
