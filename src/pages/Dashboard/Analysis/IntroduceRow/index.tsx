@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import numeral from 'numeral'
 import { Row, Col, Tooltip } from 'antd'
 import { TinyArea, TinyColumn, Progress } from '@ant-design/charts'
@@ -21,7 +21,7 @@ export interface IntroduceProps {
   loading: boolean
 }
 
-export default function IntroduceRow({ loading }: IntroduceProps) {
+export default memo(function IntroduceRow({ loading }: IntroduceProps) {
   return (
     <Row gutter={24}>
       <Col {...topColResponsiveProps}>
@@ -44,11 +44,11 @@ export default function IntroduceRow({ loading }: IntroduceProps) {
           }>
           <Trend flag='up'>
             周同比
-            <span>12%</span>
+            <span className='increment'>12%</span>
           </Trend>
           <Trend flag='down'>
             日同比
-            <span>10%</span>
+            <span className='increment'>10%</span>
           </Trend>
         </ChartCard>
       </Col>
@@ -114,11 +114,11 @@ export default function IntroduceRow({ loading }: IntroduceProps) {
             <div className='progree-footer'>
               <Trend flag='up'>
                 周同比
-                <span>12%</span>
+                <span className='increment'>12%</span>
               </Trend>
               <Trend flag='down'>
                 日同比
-                <span>10%</span>
+                <span className='increment'>10%</span>
               </Trend>
             </div>
           }>
@@ -127,4 +127,4 @@ export default function IntroduceRow({ loading }: IntroduceProps) {
       </Col>
     </Row>
   )
-}
+})
