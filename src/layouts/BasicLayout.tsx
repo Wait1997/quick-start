@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { logout } from 'Src/store/actions/auth'
+import { logout, setCollapsed } from 'Src/store/actions'
 import { menuList } from 'Utils/menuList'
 import { Layout } from 'antd'
 import ErrorBoundary from 'Src/components/ErrorBoundary'
@@ -12,9 +12,8 @@ import Content from 'Components/Content'
 import './BasicLayout.less'
 
 const BasicLayout: React.FC<any> = (props) => {
-  const { userInfo, children } = props
+  const { userInfo, collapsed, children } = props
   const history = useHistory()
-  const [collapsed, setCollapsed] = useState(false) // 菜单栏是否收起
 
   return (
     <Layout className='basic-layout'>
@@ -24,7 +23,8 @@ const BasicLayout: React.FC<any> = (props) => {
           collapsed={collapsed}
           userInfo={userInfo}
           onToggle={(value) => {
-            setCollapsed(value)
+            // 切换菜单展开/收起放在redux中
+            props.setCollapsed(value)
           }}
           onLogout={async () => {
             await props.logout(userInfo.token)
@@ -43,8 +43,9 @@ const BasicLayout: React.FC<any> = (props) => {
 export default connect(
   (state: any) => {
     return {
-      userInfo: state.user
+      userInfo: state.user,
+      collapsed: state.app.collapsed
     }
   },
-  { logout }
+  { logout, setCollapsed }
 )(BasicLayout)

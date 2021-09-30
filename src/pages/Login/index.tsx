@@ -5,7 +5,7 @@ import { Button, Form, Input, Checkbox, message } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { LoginReqType } from 'Api/login'
 import { onLogin } from 'Src/store/actions/auth'
-import { getUserInfo } from 'Src/store/actions/user'
+import { getUserInfo } from 'Src/store/actions'
 import './index.less'
 
 export type FormType = LoginReqType & { remember: boolean }

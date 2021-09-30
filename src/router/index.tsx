@@ -2,7 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
-import { getUserInfo } from 'Src/store/actions/user'
+import { getUserInfo } from 'Src/store/actions'
 import routerList, { RouteListType } from 'Src/utils/routeList'
 
 function Router(props: any) {

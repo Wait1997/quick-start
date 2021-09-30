@@ -69,8 +69,10 @@ export default function MenuSide({
     // 为了打开的subMenu的路径
     const parentList = getPreviousPath(pathname)
     setSelectedKeys([pathname])
-    setOpenKeys(parentList)
-  }, [location])
+    if (!collapsed) {
+      setOpenKeys(parentList)
+    }
+  }, [location, collapsed])
 
   const hasPermisssion = useCallback(
     (item: MenuType) => {

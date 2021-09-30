@@ -3,7 +3,7 @@ import { Form, Row, Col, Input, Select, DatePicker } from 'antd'
 import './index.less'
 
 const { Option } = Select
-const { RangePicker } = DatePicker
+const { TimePicker } = DatePicker
 
 const formColResponsiveProps = {
   xs: 24,
@@ -44,7 +44,7 @@ export default function FormBottomItem() {
       </Col>
       <Col {...formColResponsiveProps}>
         <Form.Item labelAlign='left' label='生效日期' className='form-item' colon={false}>
-          <RangePicker style={{ width: '100%' }} />
+          <TimePicker style={{ width: '100%' }} />
         </Form.Item>
       </Col>
       <Col {...formColResponsiveProps}>
