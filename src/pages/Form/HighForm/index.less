@@ -18,3 +18,41 @@
     font-size: 12px;
   }
 }
+
+.error-wrap {
+  display: flex;
+  justify-content: flex-start;
+  padding: 8px 16px;
+
+  .error-icon {
+    margin-top: 4px;
+    margin-right: 8px;
+    color: red;
+    font-size: 14px;
+  }
+
+  .error-content {
+    flex: auto;
+
+    > p {
+      margin-bottom: 4px;
+    }
+
+    > span {
+      color: rgba(0, 0, 0, 0.45);
+      font-size: 13px;
+    }
+  }
+}
+
+.popover-wrap {
+  margin: 0;
+  padding: 0;
+
+  .ant-popover-inner-content {
+    min-width: 256px;
+    max-height: 290px;
+    padding: 0;
+    overflow: auto;
+  }
+}

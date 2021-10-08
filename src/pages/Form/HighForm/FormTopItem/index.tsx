@@ -1,5 +1,6 @@
 import React from 'react'
 import { Form, Row, Col, Input, Select, DatePicker } from 'antd'
+import { Option as SelectOption } from '../index'
 import './index.less'
 
 const { Option } = Select
@@ -13,13 +14,27 @@ const formColResponsiveProps = {
   xl: 8
 }
 
-export default function FormTopItem() {
+export interface FormItemProps {
+  fieldLabels: Record<string, string>
+  adminLists: SelectOption[]
+  reviewLists: SelectOption[]
+  onCapsuleAdminOpen: (open: boolean) => void
+  onReviewPersonOpen: (open: boolean) => void
+}
+
+export default function FormTopItem({
+  fieldLabels,
+  adminLists,
+  reviewLists,
+  onCapsuleAdminOpen,
+  onReviewPersonOpen
+}: FormItemProps) {
   return (
     <Row gutter={16}>
       <Col {...formColResponsiveProps}>
         <Form.Item
           name='capsuleName'
-          label='仓库名'
+          label={fieldLabels.capsuleName}
           labelAlign='left'
           className='form-item'
           colon={false}
@@ -31,7 +46,7 @@ export default function FormTopItem() {
         <Form.Item
           name='capsuleDomain'
           labelAlign='left'
-          label='仓库域名'
+          label={fieldLabels.capsuleDomain}
           className='form-item'
           colon={false}
           rules={[{ required: true, message: '请输入仓库域名' }]}>
@@ -42,13 +57,16 @@ export default function FormTopItem() {
         <Form.Item
           name='capsuleAdmin'
           labelAlign='left'
-          label='仓库管理员'
+          label={fieldLabels.capsuleAdmin}
           className='form-item'
           colon={false}
           rules={[{ required: true, message: '请选择仓库管理员' }]}>
-          <Select placeholder='请选择'>
-            <Option value='fengfeng'>凤凤</Option>
-            <Option value='afeng'>阿凤</Option>
+          <Select placeholder='请选择' onDropdownVisibleChange={onCapsuleAdminOpen}>
+            {adminLists.map((item) => (
+              <Option key={item.value} value={item.value}>
+                {item.title}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
       </Col>
@@ -56,13 +74,16 @@ export default function FormTopItem() {
         <Form.Item
           name='reviewPerson'
           labelAlign='left'
-          label='审批人'
+          label={fieldLabels.reviewPerson}
           className='form-item'
           colon={false}
           rules={[{ required: true, message: '请选择审批人' }]}>
-          <Select placeholder='请选择'>
-            <Option value='fengfeng'>凤凤</Option>
-            <Option value='afeng'>阿凤</Option>
+          <Select placeholder='请选择' onDropdownVisibleChange={onReviewPersonOpen}>
+            {reviewLists.map((item) => (
+              <Option key={item.value} value={item.value}>
+                {item.title}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
       </Col>
@@ -70,7 +91,7 @@ export default function FormTopItem() {
         <Form.Item
           name='effectiveDate'
           labelAlign='left'
-          label='生效日期'
+          label={fieldLabels.effectiveDate}
           className='form-item'
           colon={false}
           rules={[{ required: true, message: '请选择生效日期' }]}>
@@ -81,7 +102,7 @@ export default function FormTopItem() {
         <Form.Item
           name='capsuleType'
           labelAlign='left'
-          label='仓库类型'
+          label={fieldLabels.capsuleType}
           className='form-item'
           colon={false}
           rules={[{ required: true, message: '请选择仓库类型' }]}>

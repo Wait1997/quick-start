@@ -1,5 +1,6 @@
 import React from 'react'
 import { Form, Row, Col, Input, Select, DatePicker } from 'antd'
+import { Option as SelectOption } from '../index'
 import './index.less'
 
 const { Option } = Select
@@ -13,42 +14,103 @@ const formColResponsiveProps = {
   xl: 8
 }
 
-export default function FormBottomItem() {
+export interface FormItemProps {
+  fieldLabels: Record<string, string>
+  executorLists: SelectOption[]
+  responseLists: SelectOption[]
+  onExectorOpen: (open: boolean) => void
+  onResonseOpen: (open: boolean) => void
+}
+
+export default function FormBottomItem({
+  fieldLabels,
+  executorLists,
+  responseLists,
+  onExectorOpen,
+  onResonseOpen
+}: FormItemProps) {
   return (
     <Row gutter={16}>
       <Col {...formColResponsiveProps}>
-        <Form.Item label='任务名' labelAlign='left' className='form-item' colon={false}>
+        <Form.Item
+          name='taskName'
+          label={fieldLabels.taskName}
+          labelAlign='left'
+          className='form-item'
+          colon={false}
+          rules={[{ required: true, message: '请输入任务名' }]}>
           <Input placeholder='请输入' />
         </Form.Item>
       </Col>
       <Col {...formColResponsiveProps}>
-        <Form.Item labelAlign='left' label='任务描述' className='form-item' colon={false}>
+        <Form.Item
+          name='taskDesc'
+          labelAlign='left'
+          label={fieldLabels.taskDesc}
+          className='form-item'
+          colon={false}
+          rules={[{ required: true, message: '请输入任务描述' }]}>
           <Input placeholder='请输入' />
         </Form.Item>
       </Col>
       <Col {...formColResponsiveProps}>
-        <Form.Item labelAlign='left' label='执行人' className='form-item' colon={false}>
-          <Select placeholder='请选择'>
-            <Option value='fengfeng'>凤凤</Option>
-            <Option value='afeng'>阿凤</Option>
+        <Form.Item
+          name='executor'
+          labelAlign='left'
+          label={fieldLabels.executor}
+          className='form-item'
+          colon={false}
+          rules={[
+            {
+              required: true,
+              message: '请选择执行人'
+            }
+          ]}>
+          <Select placeholder='请选择' onDropdownVisibleChange={onExectorOpen}>
+            {executorLists.map((item) => (
+              <Option key={item.value} value={item.value}>
+                {item.title}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
       </Col>
       <Col {...formColResponsiveProps}>
-        <Form.Item labelAlign='left' label='责任人' className='form-item' colon={false}>
-          <Select placeholder='请选择'>
-            <Option value='fengfeng'>凤凤</Option>
-            <Option value='afeng'>阿凤</Option>
+        <Form.Item
+          name='responsible'
+          labelAlign='left'
+          label={fieldLabels.responsible}
+          className='form-item'
+          colon={false}
+          rules={[{ required: true, message: '请选择责任人' }]}>
+          <Select placeholder='请选择' onDropdownVisibleChange={onResonseOpen}>
+            {responseLists.map((item) => (
+              <Option key={item.value} value={item.value}>
+                {item.title}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
       </Col>
       <Col {...formColResponsiveProps}>
-        <Form.Item labelAlign='left' label='生效日期' className='form-item' colon={false}>
+        <Form.Item
+          name='effectiveTime'
+          labelAlign='left'
+          label={fieldLabels.effectiveTime}
+          className='form-item'
+          colon={false}
+          rules={[{ required: true, message: '请选择有效日期' }]}>
           <TimePicker style={{ width: '100%' }} />
         </Form.Item>
       </Col>
       <Col {...formColResponsiveProps}>
-        <Form.Item labelAlign='left' label='任务类型' className='form-item' colon={false}>
+        <Form.Item
+          name='taskType'
+          labelAlign='left'
+          label={fieldLabels.taskType}
+          className='form-item'
+          colon={false}
+          rules={[{ required: true, message: '请选择任务类型' }]}>
           <Select placeholder='请选择'>
             <Option value='private'>私密</Option>
             <Option value='public'>公开</Option>
