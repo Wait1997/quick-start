@@ -80,6 +80,13 @@ export default function HighForm() {
     message.success('success')
   }
 
+  const scrollToField = (key: keyof typeof fieldLabels) => {
+    const labelNode = document.querySelector(`label[for="${key}"]`)
+    if (labelNode) {
+      labelNode.scrollIntoView(true)
+    }
+  }
+
   const submitFailed = (errorInfo: any) => {
     const { errorFields } = errorInfo
     // 表单校验的错误信息
@@ -89,7 +96,12 @@ export default function HighForm() {
       }
       const key = err.name[0] as keyof typeof fieldLabels
       return (
-        <div key={key} className='error-wrap'>
+        <div
+          key={key}
+          className='error-wrap'
+          onClick={() => {
+            scrollToField(key)
+          }}>
           <CloseCircleOutlined className='error-icon' />
           <div className='error-content'>
             <p>{err.errors[0]}</p>
@@ -176,10 +188,16 @@ export default function HighForm() {
         }}>
         {errorList && errorList.length > 0 && (
           <Popover
-            placement='top'
             overlayClassName='popover-wrap'
             title={<span>表单验证信息</span>}
             content={errorList}
+            getPopupContainer={(trigger: HTMLElement) => {
+              console.log(trigger)
+              if (trigger && trigger.parentNode) {
+                return trigger.parentNode as HTMLElement
+              }
+              return trigger
+            }}
             trigger='click'>
             <span className='footer-form-icon-wrap'>
               <CloseCircleOutlined className='footer-form-icon-tip' />
